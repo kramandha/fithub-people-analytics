@@ -1,0 +1,523 @@
+<meta charset="utf-8">
+<title>FIT HUB Requisitions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ============================= TOKENS (FIT HUB brand) ============================= */
+:root{
+  color-scheme: light;
+  --bg: #F1FAFB;
+  --surface: #FFFFFF;
+  --surface-2: #EAF6F7;
+  --ink: #0E2426;
+  --ink-2: #3F6467;
+  --ink-muted: #5A7879;
+  --border: rgba(14,36,38,0.10);
+  --border-strong: rgba(14,36,38,0.17);
+  --accent: #067A82;
+  --accent-ink: #FFFFFF;
+  --accent-soft: rgba(6,122,130,0.10);
+  --shadow: 0 1px 2px rgba(14,36,38,0.05), 0 8px 24px -12px rgba(14,36,38,0.20);
+
+  --brand-teal: #3CC3CD;
+  --brand-yellow: #FBD308;
+  --mark-ink: #06282B;
+  --chrome-bg: #0A2426;
+  --chrome-ink: #F3FEFF;
+  --chrome-ink-soft: #CFEBEC;
+  --chrome-ink-muted: #8FC7C9;
+  --chrome-select-bg: #113A3D;
+  --chrome-border: rgba(255,255,255,0.18);
+
+  --series-blue: #2a78d6;
+  --series-orange: #eb6834;
+  --series-aqua: #1baf7a;
+  --series-red: #e34948;
+
+  --status-good: #0ca30c;
+  --status-warning: #c98200;
+  --status-serious: #d9683f;
+  --status-critical: #d03b3b;
+  --status-good-bg: rgba(12,163,12,0.12);
+  --status-warning-bg: rgba(201,130,0,0.12);
+  --status-serious-bg: rgba(217,104,63,0.12);
+  --status-critical-bg: rgba(208,59,59,0.12);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg: #071B1D; --surface: #0F2C2F; --surface-2: #143539;
+    --ink: #EAFBFC; --ink-2: #9FC7C9; --ink-muted: #7FA5A7;
+    --border: rgba(255,255,255,0.10); --border-strong: rgba(255,255,255,0.18);
+    --accent: #4FE0E8; --accent-ink: #05282B; --accent-soft: rgba(79,224,232,0.16);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px -14px rgba(0,0,0,0.6);
+    --series-blue: #3987e5; --series-orange: #d95926; --series-aqua: #199e70; --series-red: #e66767;
+    --status-good: #2ec22e; --status-warning: #f0ac2e; --status-serious: #ee916c; --status-critical: #e66767;
+    --status-good-bg: rgba(46,194,46,0.16); --status-warning-bg: rgba(240,172,46,0.16);
+    --status-serious-bg: rgba(238,145,108,0.16); --status-critical-bg: rgba(230,103,103,0.16);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg: #071B1D; --surface: #0F2C2F; --surface-2: #143539;
+  --ink: #EAFBFC; --ink-2: #9FC7C9; --ink-muted: #7FA5A7;
+  --border: rgba(255,255,255,0.10); --border-strong: rgba(255,255,255,0.18);
+  --accent: #4FE0E8; --accent-ink: #05282B; --accent-soft: rgba(79,224,232,0.16);
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px -14px rgba(0,0,0,0.6);
+  --series-blue: #3987e5; --series-orange: #d95926; --series-aqua: #199e70; --series-red: #e66767;
+  --status-good: #2ec22e; --status-warning: #f0ac2e; --status-serious: #ee916c; --status-critical: #e66767;
+  --status-good-bg: rgba(46,194,46,0.16); --status-warning-bg: rgba(240,172,46,0.16);
+  --status-serious-bg: rgba(238,145,108,0.16); --status-critical-bg: rgba(230,103,103,0.16);
+}
+
+/* ============================= BASE ============================= */
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:"Fraunces",Georgia,serif; margin:0; text-wrap:balance;}
+p{margin:0;}
+::selection{background:var(--accent-soft);}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px;}
+button{font-family:inherit;}
+
+.app{max-width:1180px; margin:0 auto; padding:0 20px 96px;}
+
+.topbar{
+  background:var(--chrome-bg); color:var(--chrome-ink);
+  padding:16px 20px; border-bottom:3px solid var(--brand-teal);
+}
+.topbar-inner{max-width:1180px; margin:0 auto; display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
+.wordmark{display:flex; align-items:center; gap:10px;}
+.wordmark .mark{
+  width:32px; height:32px; border-radius:9px; background:var(--brand-teal);
+  display:flex; align-items:center; justify-content:center; flex:none;
+  color:var(--mark-ink); font-weight:800; font-size:14px; font-family:"Fraunces",serif;
+}
+.wordmark .name{font-family:"Fraunces",serif; font-weight:600; font-size:17px;}
+.wordmark .sub{font-size:10.5px; color:var(--chrome-ink-muted); text-transform:uppercase; letter-spacing:1.3px; margin-top:1px;}
+.topbar-spacer{flex:1;}
+.pagepills{display:flex; gap:6px;}
+.pagepill{
+  appearance:none; border:1px solid var(--chrome-border); background:none; color:var(--chrome-ink-muted);
+  padding:7px 13px; border-radius:99px; font-size:12px; font-weight:600; cursor:pointer; white-space:nowrap;
+}
+.pagepill[aria-current="true"]{background:var(--brand-teal); color:var(--mark-ink); border-color:var(--brand-teal);}
+.pagepill:hover:not([aria-current="true"]){color:var(--chrome-ink); border-color:rgba(255,255,255,0.35);}
+
+/* ---------- pages ---------- */
+.page{display:none; padding-top:28px;}
+.page.active{display:block; animation:fade .25s ease;}
+@media (prefers-reduced-motion: reduce){ .page.active{animation:none;} }
+@keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+
+.page-head{margin-bottom:18px;}
+.page-head .eyebrow{font-size:11px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:1.2px;}
+.page-head h1{font-size:26px; font-weight:600; margin-top:4px;}
+.page-head .lede{font-size:13.5px; color:var(--ink-2); max-width:70ch; margin-top:8px; line-height:1.55;}
+
+/* ---------- kpi ---------- */
+.kpi-row{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:18px;}
+.kpi{
+  background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  padding:14px 15px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:6px;
+}
+.kpi .kpi-label{font-size:11.5px; color:var(--ink-2); font-weight:600; text-transform:uppercase; letter-spacing:0.4px; line-height:1.35;}
+.kpi .kpi-value{font-family:"Fraunces",serif; font-weight:600; font-size:27px; line-height:1;}
+.kpi .kpi-note{font-size:11px; color:var(--ink-muted);}
+.kpi-chip{align-self:flex-start; font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:99px; text-transform:uppercase; letter-spacing:0.3px;}
+.chip-good{background:var(--status-good-bg); color:var(--status-good);}
+.chip-warning{background:var(--status-warning-bg); color:var(--status-warning);}
+.chip-serious{background:var(--status-serious-bg); color:var(--status-serious);}
+.chip-critical{background:var(--status-critical-bg); color:var(--status-critical);}
+
+/* ---------- grid / card ---------- */
+.grid{display:grid; gap:16px; margin-bottom:16px;}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(360px,1fr));}
+.card{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px 20px 16px; box-shadow:var(--shadow);}
+.card-title{font-size:13.5px; font-weight:700; margin-bottom:2px;}
+.card-sub{font-size:12px; color:var(--ink-muted); margin-bottom:14px;}
+
+/* ---------- bar chart ---------- */
+.barlist{display:flex; flex-direction:column; gap:9px;}
+.barrow{display:grid; grid-template-columns:172px 1fr 54px; align-items:center; gap:10px;}
+.barrow .rlabel{font-size:12.5px; color:var(--ink-2); text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.barrow .rtrack{position:relative; height:16px; background:var(--surface-2); border-radius:4px; overflow:hidden;}
+.barrow .rfill{position:absolute; left:0; top:0; height:100%; border-radius:4px;}
+.barrow .rval{font-size:12px; color:var(--ink); font-variant-numeric:tabular-nums; font-weight:600;}
+@media (max-width:640px){ .barrow{grid-template-columns:104px 1fr 44px;} }
+
+.legend{display:flex; flex-wrap:wrap; gap:12px; margin-top:2px;}
+.legend-item{display:flex; align-items:center; gap:6px; font-size:12px; color:var(--ink-2);}
+.legend-dot{width:9px; height:9px; border-radius:3px; flex:none;}
+.stackbar{display:flex; height:30px; border-radius:7px; overflow:hidden; width:100%;}
+.donut-wrap{display:flex; align-items:center; gap:20px; flex-wrap:wrap;}
+
+/* ---------- table ---------- */
+details.tbl{margin-top:12px;}
+details.tbl summary{cursor:pointer; font-size:12px; color:var(--ink-2); font-weight:600; list-style:none; display:flex; align-items:center; gap:5px;}
+details.tbl summary::before{content:"▸"; font-size:10px; transition:transform .15s ease;}
+details.tbl[open] summary::before{transform:rotate(90deg);}
+details.tbl summary::-webkit-details-marker{display:none;}
+.tbl-scroll{overflow-x:auto; margin-top:8px; max-height:420px; overflow-y:auto;}
+table.datatable{border-collapse:collapse; width:100%; font-size:12.5px;}
+table.datatable th{position:sticky; top:0; background:var(--surface); text-align:left; padding:7px 10px; color:var(--ink-muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.3px; border-bottom:1px solid var(--border-strong); white-space:nowrap;}
+table.datatable td{padding:7px 10px; border-bottom:1px solid var(--border); font-variant-numeric:tabular-nums; white-space:nowrap;}
+table.datatable tr:hover td{background:var(--surface-2);}
+.badge{display:inline-block; padding:1px 8px; border-radius:99px; font-size:11px; font-weight:700;}
+
+/* ---------- tooltip ---------- */
+#tooltip{
+  position:fixed; pointer-events:none; z-index:999; background:var(--ink); color:var(--surface);
+  font-size:12px; padding:7px 10px; border-radius:8px; box-shadow:0 8px 22px rgba(0,0,0,0.28);
+  opacity:0; transform:translate(-50%,-100%); transition:opacity .1s ease; max-width:240px; line-height:1.4;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) #tooltip{background:#143539; color:#EAFBFC;} }
+:root[data-theme="dark"] #tooltip{background:#143539; color:#EAFBFC;}
+#tooltip.show{opacity:1;}
+#tooltip .tt-label{font-weight:700; margin-bottom:2px;}
+
+/* ---------- pager nav ---------- */
+.pagernav{
+  position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+  display:flex; align-items:center; gap:10px; background:var(--chrome-bg); color:var(--chrome-ink);
+  padding:8px 10px 8px 16px; border-radius:99px; box-shadow:0 10px 30px rgba(0,0,0,0.25); z-index:30;
+}
+.pagernav .lbl{font-size:12px; color:var(--chrome-ink-muted); white-space:nowrap;}
+.pagernav button{
+  appearance:none; border:none; background:var(--brand-teal); color:var(--mark-ink);
+  width:32px; height:32px; border-radius:50%; font-size:15px; cursor:pointer; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+.pagernav button:disabled{opacity:0.3; cursor:default;}
+.pagernav button.ghost{background:transparent; color:var(--chrome-ink); border:1px solid var(--chrome-border);}
+
+footer.appfoot{margin-top:30px; padding-top:16px; border-top:1px solid var(--border); font-size:11.5px; color:var(--ink-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;}
+</style>
+
+<div id="tooltip"></div>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="wordmark">
+      <div class="mark">FH</div>
+      <div><div class="name">FIT HUB Requisitions</div><div class="sub">Hiring Pipeline Report</div></div>
+    </div>
+    <div class="topbar-spacer"></div>
+    <div class="pagepills" role="tablist" aria-label="Report pages">
+      <button class="pagepill" data-page="1" aria-current="true">01 · Pipeline</button>
+      <button class="pagepill" data-page="2" aria-current="false">02 · Per Role</button>
+      <button class="pagepill" data-page="3" aria-current="false">03 · Per Area</button>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+  <section id="page-1" class="page active"></section>
+  <section id="page-2" class="page"></section>
+  <section id="page-3" class="page"></section>
+  <footer class="appfoot">
+    <span>FIT HUB People Analytics &amp; Intelligence — internal use</span>
+    <span>Source: Hiring requisition dataset · 1,552 records</span>
+  </footer>
+</div>
+
+<div class="pagernav">
+  <button class="ghost" id="prevBtn" aria-label="Previous page">←</button>
+  <span class="lbl" id="pagerLabel">Page 1 of 3</span>
+  <button id="nextBtn" aria-label="Next page">→</button>
+</div>
+
+<script>
+"use strict";
+const DATA = {"kpis":{"total":1552,"closed":1551,"open":1,"replacement":1057,"new_hiring":495,"replacement_rate":68.1,"avg_ttf":46.9,"sla_ahead":607,"sla_meet":518,"sla_beyond":427,"sla_ahead_pct":39.1,"sla_meet_pct":33.4,"sla_beyond_pct":27.5,"sla_success_pct":72.5},"open_requisitions":[{"Position":"Housekeeping","Location":"Bekasi","Request Date":"21 Aug 2024","Need by Date":"06 Jan 2025","Source":"Internal Movement","Status":"New Hiring"}],"channels":[{"Source":"Direct Source","total":5,"ahead":3,"meet":2,"beyond":0,"avg_ttf":38.6,"success_pct":100.0,"beyond_pct":0.0},{"Source":"Employer Branding Channel","total":67,"ahead":27,"meet":28,"beyond":12,"avg_ttf":40.0,"success_pct":82.1,"beyond_pct":17.9},{"Source":"Career Site","total":279,"ahead":116,"meet":108,"beyond":55,"avg_ttf":55.1,"success_pct":80.3,"beyond_pct":19.7},{"Source":"Internal Hiring Program","total":91,"ahead":19,"meet":52,"beyond":20,"avg_ttf":58.6,"success_pct":78.0,"beyond_pct":22.0},{"Source":"Rehire","total":9,"ahead":5,"meet":2,"beyond":2,"avg_ttf":28.0,"success_pct":77.8,"beyond_pct":22.2},{"Source":"Employee Referral","total":552,"ahead":266,"meet":148,"beyond":138,"avg_ttf":38.4,"success_pct":75.0,"beyond_pct":25.0},{"Source":"Internal Movement","total":46,"ahead":13,"meet":19,"beyond":14,"avg_ttf":68.7,"success_pct":69.6,"beyond_pct":30.4},{"Source":"Job Portal","total":278,"ahead":98,"meet":90,"beyond":90,"avg_ttf":48.2,"success_pct":67.6,"beyond_pct":32.4},{"Source":"Social Media Ads","total":225,"ahead":60,"meet":69,"beyond":96,"avg_ttf":50.2,"success_pct":57.3,"beyond_pct":42.7}],"most_effective_channel":{"Source":"Employer Branding Channel","total":67,"ahead":27,"meet":28,"beyond":12,"avg_ttf":40.0,"success_pct":82.1,"beyond_pct":17.9},"fastest_channel":{"Source":"Employee Referral","total":552,"ahead":266,"meet":148,"beyond":138,"avg_ttf":38.4,"success_pct":75.0,"beyond_pct":25.0},"by_role":[{"Position":"Personal Trainer","total":562,"closed":562,"replacement":355,"new_hiring":207,"ahead":188,"meet":184,"beyond":190,"avg_ttf":45.2,"open":0,"replacement_pct":63.2,"beyond_pct":33.8,"success_pct":66.2,"top_source":"Employee Referral"},{"Position":"Fitness Consultant","total":550,"closed":550,"replacement":439,"new_hiring":111,"ahead":249,"meet":152,"beyond":149,"avg_ttf":37.4,"open":0,"replacement_pct":79.8,"beyond_pct":27.1,"success_pct":72.9,"top_source":"Employee Referral"},{"Position":"Customer Service","total":235,"closed":235,"replacement":149,"new_hiring":86,"ahead":96,"meet":114,"beyond":25,"avg_ttf":55.6,"open":0,"replacement_pct":63.4,"beyond_pct":10.6,"success_pct":89.4,"top_source":"Employee Referral"},{"Position":"Housekeeping","total":175,"closed":174,"replacement":100,"new_hiring":75,"ahead":64,"meet":65,"beyond":46,"avg_ttf":66.1,"open":1,"replacement_pct":57.1,"beyond_pct":26.3,"success_pct":73.7,"top_source":"Career Site"},{"Position":"Operation Manager","total":13,"closed":13,"replacement":4,"new_hiring":9,"ahead":6,"meet":2,"beyond":5,"avg_ttf":64.8,"open":0,"replacement_pct":30.8,"beyond_pct":38.5,"success_pct":61.5,"top_source":"Employee Referral"},{"Position":"Club Manager","total":12,"closed":12,"replacement":8,"new_hiring":4,"ahead":4,"meet":1,"beyond":7,"avg_ttf":82.8,"open":0,"replacement_pct":66.7,"beyond_pct":58.3,"success_pct":41.7,"top_source":"Employee Referral"},{"Position":"Fitness Manager","total":3,"closed":3,"replacement":0,"new_hiring":3,"ahead":0,"meet":0,"beyond":3,"avg_ttf":89.0,"open":0,"replacement_pct":0.0,"beyond_pct":100.0,"success_pct":0.0,"top_source":"Internal Hiring Program"},{"Position":"Sales Manager","total":2,"closed":2,"replacement":2,"new_hiring":0,"ahead":0,"meet":0,"beyond":2,"avg_ttf":75.0,"open":0,"replacement_pct":100.0,"beyond_pct":100.0,"success_pct":0.0,"top_source":"Career Site"}],"by_area":[{"Location":"Bali","total":256,"closed":256,"replacement":173,"new_hiring":83,"ahead":74,"meet":67,"beyond":115,"avg_ttf":46.0,"open":0,"replacement_pct":67.6,"beyond_pct":44.9,"success_pct":55.1},{"Location":"Tangerang","total":167,"closed":167,"replacement":103,"new_hiring":64,"ahead":62,"meet":72,"beyond":33,"avg_ttf":48.6,"open":0,"replacement_pct":61.7,"beyond_pct":19.8,"success_pct":80.2},{"Location":"Jakarta Selatan","total":127,"closed":127,"replacement":99,"new_hiring":28,"ahead":59,"meet":38,"beyond":30,"avg_ttf":46.8,"open":0,"replacement_pct":78.0,"beyond_pct":23.6,"success_pct":76.4},{"Location":"Bogor","total":102,"closed":102,"replacement":58,"new_hiring":44,"ahead":45,"meet":39,"beyond":18,"avg_ttf":55.5,"open":0,"replacement_pct":56.9,"beyond_pct":17.6,"success_pct":82.4},{"Location":"Surabaya","total":102,"closed":102,"replacement":83,"new_hiring":19,"ahead":43,"meet":26,"beyond":33,"avg_ttf":39.5,"open":0,"replacement_pct":81.4,"beyond_pct":32.4,"success_pct":67.6},{"Location":"Bekasi","total":99,"closed":98,"replacement":52,"new_hiring":47,"ahead":41,"meet":40,"beyond":18,"avg_ttf":44.2,"open":1,"replacement_pct":52.5,"beyond_pct":18.2,"success_pct":81.8},{"Location":"Jakarta Timur","total":83,"closed":83,"replacement":75,"new_hiring":8,"ahead":44,"meet":22,"beyond":17,"avg_ttf":43.3,"open":0,"replacement_pct":90.4,"beyond_pct":20.5,"success_pct":79.5},{"Location":"Bandung","total":77,"closed":77,"replacement":38,"new_hiring":39,"ahead":32,"meet":33,"beyond":12,"avg_ttf":52.9,"open":0,"replacement_pct":49.4,"beyond_pct":15.6,"success_pct":84.4},{"Location":"Jakarta Utara","total":62,"closed":62,"replacement":46,"new_hiring":16,"ahead":26,"meet":25,"beyond":11,"avg_ttf":66.8,"open":0,"replacement_pct":74.2,"beyond_pct":17.7,"success_pct":82.3},{"Location":"Jakarta Pusat","total":60,"closed":60,"replacement":41,"new_hiring":19,"ahead":28,"meet":14,"beyond":18,"avg_ttf":61.4,"open":0,"replacement_pct":68.3,"beyond_pct":30.0,"success_pct":70.0},{"Location":"Jakarta Barat","total":58,"closed":58,"replacement":53,"new_hiring":5,"ahead":24,"meet":20,"beyond":14,"avg_ttf":41.1,"open":0,"replacement_pct":91.4,"beyond_pct":24.1,"success_pct":75.9},{"Location":"Semarang","total":56,"closed":56,"replacement":51,"new_hiring":5,"ahead":25,"meet":15,"beyond":16,"avg_ttf":35.7,"open":0,"replacement_pct":91.1,"beyond_pct":28.6,"success_pct":71.4},{"Location":"Depok","total":48,"closed":48,"replacement":30,"new_hiring":18,"ahead":20,"meet":17,"beyond":11,"avg_ttf":40.3,"open":0,"replacement_pct":62.5,"beyond_pct":22.9,"success_pct":77.1},{"Location":"Yogyakarta","total":47,"closed":47,"replacement":32,"new_hiring":15,"ahead":14,"meet":19,"beyond":14,"avg_ttf":44.1,"open":0,"replacement_pct":68.1,"beyond_pct":29.8,"success_pct":70.2},{"Location":"Batam","total":38,"closed":38,"replacement":16,"new_hiring":22,"ahead":7,"meet":14,"beyond":17,"avg_ttf":41.1,"open":0,"replacement_pct":42.1,"beyond_pct":44.7,"success_pct":55.3},{"Location":"Surakarta","total":32,"closed":32,"replacement":25,"new_hiring":7,"ahead":15,"meet":3,"beyond":14,"avg_ttf":32.6,"open":0,"replacement_pct":78.1,"beyond_pct":43.8,"success_pct":56.2},{"Location":"Balikpapan","total":21,"closed":21,"replacement":16,"new_hiring":5,"ahead":7,"meet":3,"beyond":11,"avg_ttf":51.4,"open":0,"replacement_pct":76.2,"beyond_pct":52.4,"success_pct":47.6},{"Location":"Samarinda","total":20,"closed":20,"replacement":10,"new_hiring":10,"ahead":5,"meet":9,"beyond":6,"avg_ttf":62.2,"open":0,"replacement_pct":50.0,"beyond_pct":30.0,"success_pct":70.0},{"Location":"Karawang","total":18,"closed":18,"replacement":6,"new_hiring":12,"ahead":4,"meet":14,"beyond":0,"avg_ttf":51.3,"open":0,"replacement_pct":33.3,"beyond_pct":0.0,"success_pct":100.0},{"Location":"Cirebon","total":18,"closed":18,"replacement":9,"new_hiring":9,"ahead":9,"meet":6,"beyond":3,"avg_ttf":44.6,"open":0,"replacement_pct":50.0,"beyond_pct":16.7,"success_pct":83.3},{"Location":"Cilegon","total":17,"closed":17,"replacement":10,"new_hiring":7,"ahead":8,"meet":6,"beyond":3,"avg_ttf":25.9,"open":0,"replacement_pct":58.8,"beyond_pct":17.6,"success_pct":82.4},{"Location":"Malang","total":12,"closed":12,"replacement":8,"new_hiring":4,"ahead":4,"meet":3,"beyond":5,"avg_ttf":39.7,"open":0,"replacement_pct":66.7,"beyond_pct":41.7,"success_pct":58.3},{"Location":"Makassar","total":11,"closed":11,"replacement":9,"new_hiring":2,"ahead":3,"meet":5,"beyond":3,"avg_ttf":34.5,"open":0,"replacement_pct":81.8,"beyond_pct":27.3,"success_pct":72.7},{"Location":"Palembang","total":7,"closed":7,"replacement":6,"new_hiring":1,"ahead":4,"meet":0,"beyond":3,"avg_ttf":45.1,"open":0,"replacement_pct":85.7,"beyond_pct":42.9,"success_pct":57.1},{"Location":"Cileungsi","total":7,"closed":7,"replacement":2,"new_hiring":5,"ahead":0,"meet":7,"beyond":0,"avg_ttf":76.4,"open":0,"replacement_pct":28.6,"beyond_pct":0.0,"success_pct":100.0},{"Location":"Sidoarjo","total":6,"closed":6,"replacement":5,"new_hiring":1,"ahead":3,"meet":1,"beyond":2,"avg_ttf":36.0,"open":0,"replacement_pct":83.3,"beyond_pct":33.3,"success_pct":66.7},{"Location":"Gresik","total":1,"closed":1,"replacement":1,"new_hiring":0,"ahead":1,"meet":0,"beyond":0,"avg_ttf":13.0,"open":0,"replacement_pct":100.0,"beyond_pct":0.0,"success_pct":100.0}]};
+
+/* ============================= UTIL ============================= */
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+const fmt1 = v => (Math.round(v*10)/10).toLocaleString();
+const fmtInt = v => Math.round(v).toLocaleString();
+const cssv = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+function el(tag, attrs={}, children=[]){
+  const n = document.createElement(tag);
+  for(const k in attrs){
+    if(k==="class") n.className = attrs[k];
+    else if(k==="html") n.innerHTML = attrs[k];
+    else if(k.startsWith("on")) n.addEventListener(k.slice(2), attrs[k]);
+    else n.setAttribute(k, attrs[k]);
+  }
+  (Array.isArray(children)?children:[children]).forEach(c=>{
+    if(c==null) return;
+    n.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+  });
+  return n;
+}
+
+const tip = $("#tooltip");
+function showTip(evt, labelHtml, bodyHtml){
+  tip.innerHTML = `<div class="tt-label">${labelHtml}</div>${bodyHtml||""}`;
+  tip.classList.add("show"); moveTip(evt);
+}
+function moveTip(evt){ tip.style.left = evt.clientX + "px"; tip.style.top = (evt.clientY - 12) + "px"; }
+function hideTip(){ tip.classList.remove("show"); }
+document.addEventListener("mousemove", (e)=>{ if(tip.classList.contains("show")) moveTip(e); });
+
+function badgeFor(pct, t){ if(pct>=t.critical) return "critical"; if(pct>=t.serious) return "serious"; if(pct>=t.warning) return "warning"; return "good"; }
+function badgeHtml(level, text){ return `<span class="badge" style="background:var(--status-${level}-bg); color:var(--status-${level});">${text}</span>`; }
+
+function kpiTile(label, value, level, note){
+  return el("div",{class:"kpi"},[
+    el("div",{class:"kpi-label"}, label),
+    el("div",{class:"kpi-value"}, value),
+    level? (()=>{ const s=document.createElement("span"); s.className=`kpi-chip chip-${level}`; s.textContent = level==="good"?"Healthy":level==="critical"?"Critical":level==="serious"?"Elevated":"Watch"; return s; })() : null,
+    note? el("div",{class:"kpi-note"}, note) : null,
+  ].filter(Boolean));
+}
+
+function barList(opts){
+  const max = opts.max ?? Math.max(...opts.data.map(d=>d.value), 1);
+  const wrap = el("div", {class:"barlist"});
+  opts.data.forEach(d=>{
+    const pct = Math.max(2, (d.value/max)*100);
+    const color = typeof opts.color === "function" ? opts.color(d) : opts.color;
+    const row = el("div", {class:"barrow"});
+    row.appendChild(el("div", {class:"rlabel", title:d.label}, d.label));
+    const track = el("div", {class:"rtrack"});
+    track.appendChild(el("div", {class:"rfill", style:`width:${pct}%; background:${color};`}));
+    row.appendChild(track);
+    row.appendChild(el("div", {class:"rval"}, opts.valueFmt ? opts.valueFmt(d.value) : fmt1(d.value)));
+    row.addEventListener("mousemove", e=>{ showTip(e, d.label, opts.tooltip? opts.tooltip(d): (opts.valueFmt?opts.valueFmt(d.value):d.value)); });
+    row.addEventListener("mouseleave", hideTip);
+    wrap.appendChild(row);
+  });
+  opts.container.appendChild(wrap);
+}
+
+function stackedBar(container, data, colors){
+  const total = data.reduce((a,d)=>a+d.value,0);
+  const bar = el("div", {class:"stackbar"});
+  data.forEach((d,i)=>{
+    const pct = (d.value/total*100);
+    const seg = el("div", {style:`width:${pct}%; background:${colors[i]};`});
+    seg.addEventListener("mousemove", e=> showTip(e, d.label, `${fmtInt(d.value)} · ${fmt1(pct)}%`));
+    seg.addEventListener("mouseleave", hideTip);
+    bar.appendChild(seg);
+  });
+  container.appendChild(bar);
+  const legend = el("div", {class:"legend"});
+  data.forEach((d,i)=>{
+    legend.appendChild(el("div", {class:"legend-item"}, [el("span",{class:"legend-dot", style:`background:${colors[i]}`}), `${d.label} — ${fmtInt(d.value)} (${fmt1(d.value/total*100)}%)`]));
+  });
+  container.appendChild(legend);
+}
+
+function donut(container, data, colors, opts={}){
+  const size = opts.size || 150, stroke = opts.stroke || 20, r = (size-stroke)/2, c = 2*Math.PI*r;
+  const total = data.reduce((a,d)=>a+d.value,0);
+  const svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.setAttribute("width", size); svg.setAttribute("height", size); svg.setAttribute("viewBox", `0 0 ${size} ${size}`);
+  let offset = 0;
+  data.forEach((d,i)=>{
+    const frac = d.value/total, dash = frac*c;
+    const circle = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    circle.setAttribute("cx", size/2); circle.setAttribute("cy", size/2); circle.setAttribute("r", r);
+    circle.setAttribute("fill","none"); circle.setAttribute("stroke", colors[i]); circle.setAttribute("stroke-width", stroke);
+    circle.setAttribute("stroke-dasharray", `${dash} ${c-dash}`); circle.setAttribute("stroke-dashoffset", -offset);
+    circle.setAttribute("transform", `rotate(-90 ${size/2} ${size/2})`);
+    circle.addEventListener("mousemove", e=> showTip(e, d.label, `${fmtInt(d.value)} (${fmt1(frac*100)}%)`));
+    circle.addEventListener("mouseleave", hideTip);
+    svg.appendChild(circle); offset += dash;
+  });
+  const wrapDiv = el("div", {class:"donut-wrap"});
+  const svgWrap = el("div", {style:"position:relative;"});
+  svgWrap.appendChild(svg);
+  svgWrap.appendChild(el("div", {style:`position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none;`}, [
+    el("div", {style:"font-family:'Fraunces',serif; font-weight:600; font-size:20px;"}, String(opts.centerLabel ?? fmtInt(total))),
+    el("div", {style:"font-size:10px; color:var(--ink-muted); text-transform:uppercase; letter-spacing:.4px;"}, opts.centerSub ?? "total"),
+  ]));
+  wrapDiv.appendChild(svgWrap);
+  const legend = el("div", {class:"legend", style:"flex-direction:column; gap:8px;"});
+  data.forEach((d,i)=> legend.appendChild(el("div", {class:"legend-item"}, [el("span",{class:"legend-dot", style:`background:${colors[i]}`}), `${d.label} — ${fmtInt(d.value)} (${fmt1(d.value/total*100)}%)`])));
+  wrapDiv.appendChild(legend);
+  container.appendChild(wrapDiv);
+}
+
+function dataTable(container, headers, rows, summaryText){
+  const det = el("details", {class:"tbl"});
+  det.appendChild(el("summary",{}, summaryText || "View as table"));
+  const scrollWrap = el("div", {class:"tbl-scroll"});
+  const table = el("table", {class:"datatable"});
+  table.appendChild(el("thead", {}, el("tr", {}, headers.map(h=>el("th",{},h)))));
+  table.appendChild(el("tbody", {}, rows.map(r=> el("tr",{}, r.map(c=>{
+    if(c && typeof c === "object" && c.html !== undefined) return el("td",{html:c.html});
+    return el("td",{}, String(c));
+  })) )));
+  scrollWrap.appendChild(table); det.appendChild(scrollWrap); container.appendChild(det);
+}
+
+/* ============================= PAGE 1 — PIPELINE ============================= */
+function buildPage1(){
+  const root = $("#page-1");
+  const k = DATA.kpis;
+  root.appendChild(el("div",{class:"page-head"},[
+    el("span",{class:"eyebrow"},"Requisition Pipeline"),
+    el("h1",{},"How many seats did we fill, and how?"),
+    el("p",{class:"lede"},"Every position FIT HUB has requisitioned, whether it's already been filled, and what it took to fill it — replacement seats, time-to-fill, SLA outcome, and which sourcing channel actually performs."),
+  ]));
+
+  root.appendChild(el("div",{class:"kpi-row"},[
+    kpiTile("Total Requisitions", fmtInt(k.total)),
+    kpiTile("Closed (Filled)", fmtInt(k.closed), "good", fmt1(k.closed/k.total*100)+"% of all requisitions"),
+    kpiTile("Still Open", fmtInt(k.open), k.open>0?"warning":"good", k.open>0? "unfilled as of snapshot":"none outstanding"),
+    kpiTile("Replacement Rate", k.replacement_rate+"%", "critical", fmtInt(k.replacement)+" of "+fmtInt(k.total)+" reqs replace someone who left"),
+    kpiTile("Avg. Time to Fill", Math.round(k.avg_ttf)+"d"),
+    kpiTile("SLA Success Rate", k.sla_success_pct+"%", k.sla_success_pct>=75?"good":k.sla_success_pct>=60?"warning":"critical", "Ahead + Meet SLA combined"),
+  ]));
+
+  const grid = el("div",{class:"grid grid-2"});
+  const c1 = el("div",{class:"card"});
+  c1.appendChild(el("div",{class:"card-title"},"Replacement Hiring vs. New Headcount"));
+  c1.appendChild(el("div",{class:"card-sub"},"Replacement share is a proxy for attrition-driven hiring pressure"));
+  donut(c1, [{label:"Replacement",value:k.replacement},{label:"New Headcount",value:k.new_hiring}], [cssv("--status-critical"), cssv("--accent")],
+    {centerLabel:k.replacement_rate+"%", centerSub:"replacement"});
+  c1.appendChild(el("p",{style:"font-size:11.5px; color:var(--ink-muted); margin-top:10px; line-height:1.5;"},
+    "For context: 889 employees exited over the same period logged in the Turnover dataset — replacement requisitions are recruiting's direct response to that attrition."));
+  grid.appendChild(c1);
+
+  const c2 = el("div",{class:"card"});
+  c2.appendChild(el("div",{class:"card-title"},"SLA Outcome"));
+  c2.appendChild(el("div",{class:"card-sub"},fmtInt(k.total)+" requisitions"));
+  stackedBar(c2, [{label:"Ahead SLA",value:k.sla_ahead},{label:"Meet SLA",value:k.sla_meet},{label:"Beyond SLA",value:k.sla_beyond}],
+    [cssv("--status-good"), cssv("--series-blue"), cssv("--status-critical")]);
+  c2.appendChild(el("div",{style:"margin-top:14px;"}));
+  c2.appendChild(el("div",{class:"card-title"},"Avg. Time to Fill"));
+  c2.appendChild(el("div",{style:"font-family:'Fraunces',serif; font-size:32px; font-weight:600;"}, Math.round(k.avg_ttf)+" days"));
+  grid.appendChild(c2);
+  root.appendChild(grid);
+
+  const c3 = el("div",{class:"card"});
+  c3.appendChild(el("div",{class:"card-title"},"Channel effectiveness"));
+  c3.appendChild(el("div",{class:"card-sub"},"Ranked by SLA success rate (Ahead + Meet ÷ total) — most effective at top"));
+  barList({container:c3, data:DATA.channels.map(d=>({label:d.Source, value:d.success_pct, total:d.total, avg_ttf:d.avg_ttf})),
+    max:100, valueFmt:v=>fmt1(v)+"%",
+    color:d=> d.value>=80?cssv("--status-good"): d.value>=65?cssv("--series-blue"): d.value>=50?cssv("--status-warning"):cssv("--status-critical"),
+    tooltip:d=>`${fmt1(d.value)}% SLA success · ${fmtInt(d.total)} hires · ${fmt1(d.avg_ttf)}d avg fill`});
+  dataTable(c3, ["Channel","Hires","Ahead","Meet","Beyond","Success %","Avg. Fill (d)"],
+    DATA.channels.map(d=>[d.Source, d.total, d.ahead, d.meet, d.beyond, fmt1(d.success_pct)+"%", fmt1(d.avg_ttf)]));
+  root.appendChild(c3);
+}
+
+/* ============================= PAGE 2 — PER ROLE ============================= */
+function buildPage2(){
+  const root = $("#page-2");
+  root.appendChild(el("div",{class:"page-head"},[
+    el("span",{class:"eyebrow"},"Hiring per Role"),
+    el("h1",{},"Which roles drive the requisition volume?"),
+    el("p",{class:"lede"},"Personal Trainer and Fitness Consultant alone account for the majority of all hiring activity — and carry the highest replacement share, the clearest fingerprint of attrition."),
+  ]));
+
+  const grid = el("div",{class:"grid grid-2"});
+  const c1 = el("div",{class:"card"});
+  c1.appendChild(el("div",{class:"card-title"},"Total requisitions by role"));
+  barList({container:c1, data:DATA.by_role.map(d=>({label:d.Position, value:d.total})), color:cssv("--accent"), valueFmt:fmtInt});
+  grid.appendChild(c1);
+
+  const c2 = el("div",{class:"card"});
+  c2.appendChild(el("div",{class:"card-title"},"Replacement rate by role"));
+  c2.appendChild(el("div",{class:"card-sub"},"Share of requisitions replacing someone who left · highest to lowest"));
+  barList({container:c2, data:DATA.by_role.map(d=>({label:d.Position, value:d.replacement_pct})).sort((a,b)=>b.value-a.value), max:100, valueFmt:v=>fmt1(v)+"%",
+    color:d=> d.value>=70?cssv("--status-critical"): d.value>=45?cssv("--status-warning"):cssv("--status-good")});
+  grid.appendChild(c2);
+  root.appendChild(grid);
+
+  const grid2 = el("div",{class:"grid grid-2"});
+  const c3 = el("div",{class:"card"});
+  c3.appendChild(el("div",{class:"card-title"},"Beyond-SLA rate by role"));
+  c3.appendChild(el("div",{class:"card-sub"},"Highest to lowest"));
+  barList({container:c3, data:DATA.by_role.map(d=>({label:d.Position, value:d.beyond_pct})).sort((a,b)=>b.value-a.value), max:100, valueFmt:v=>fmt1(v)+"%",
+    color:d=> d.value>=50?cssv("--status-critical"): d.value>=30?cssv("--status-serious"): d.value>=18?cssv("--status-warning"):cssv("--status-good")});
+  grid2.appendChild(c3);
+
+  const c4 = el("div",{class:"card"});
+  c4.appendChild(el("div",{class:"card-title"},"Avg. time to fill by role"));
+  barList({container:c4, data:DATA.by_role.map(d=>({label:d.Position, value:d.avg_ttf})), valueFmt:v=>Math.round(v)+"d", color:cssv("--series-orange")});
+  grid2.appendChild(c4);
+  root.appendChild(grid2);
+
+  const c5 = el("div",{class:"card"});
+  c5.appendChild(el("div",{class:"card-title"},"Full breakdown by role"));
+  c5.appendChild(el("div",{class:"card-sub"},"Top sourcing channel is the most-used source for that role, not necessarily the most effective"));
+  dataTable(c5, ["Position","Total","Open","Replacement %","Beyond-SLA %","Avg. Fill (d)","Top Source"],
+    DATA.by_role.map(d=>[d.Position, d.total, d.open, {html: badgeHtml(badgeFor(d.replacement_pct,{critical:70,serious:55,warning:40}), fmt1(d.replacement_pct)+"%")}, {html: badgeHtml(badgeFor(d.beyond_pct,{critical:50,serious:30,warning:18}), fmt1(d.beyond_pct)+"%")}, fmt1(d.avg_ttf), d.top_source]),
+    "View full role table");
+  root.appendChild(c5);
+}
+
+/* ============================= PAGE 3 — PER AREA ============================= */
+function buildPage3(){
+  const root = $("#page-3");
+  const areas = DATA.by_area;
+  root.appendChild(el("div",{class:"page-head"},[
+    el("span",{class:"eyebrow"},"Hiring per Area"),
+    el("h1",{},"Where is hiring hardest?"),
+    el("p",{class:"lede"},`${areas.length} club locations raised requisitions this period. Bali is both the highest-volume site and the slowest to fill — worth a closer look before opening new clubs nearby.`),
+  ]));
+
+  const top = areas.slice(0,12);
+  const grid = el("div",{class:"grid grid-2"});
+  const c1 = el("div",{class:"card"});
+  c1.appendChild(el("div",{class:"card-title"},"Requisitions by area (top 12 by volume)"));
+  barList({container:c1, data:top.map(d=>({label:d.Location, value:d.total})), color:cssv("--accent"), valueFmt:fmtInt});
+  grid.appendChild(c1);
+
+  const c2 = el("div",{class:"card"});
+  c2.appendChild(el("div",{class:"card-title"},"Beyond-SLA rate (top 12 by volume)"));
+  c2.appendChild(el("div",{class:"card-sub"},"Highest to lowest"));
+  barList({container:c2, data:top.map(d=>({label:d.Location, value:d.beyond_pct})).sort((a,b)=>b.value-a.value), max:100, valueFmt:v=>fmt1(v)+"%",
+    color:d=> d.value>=45?cssv("--status-critical"): d.value>=28?cssv("--status-serious"): d.value>=18?cssv("--status-warning"):cssv("--status-good")});
+  grid.appendChild(c2);
+  root.appendChild(grid);
+
+  const c3 = el("div",{class:"card"});
+  c3.appendChild(el("div",{class:"card-title"},"Full breakdown by area"));
+  c3.appendChild(el("div",{class:"card-sub"},`All ${areas.length} locations, sorted by requisition volume`));
+  dataTable(c3, ["Location","Total","Open","Replacement %","Beyond-SLA %","Avg. Fill (d)"],
+    areas.map(d=>[d.Location, d.total, d.open, {html: badgeHtml(badgeFor(d.replacement_pct,{critical:80,serious:65,warning:50}), fmt1(d.replacement_pct)+"%")}, {html: badgeHtml(badgeFor(d.beyond_pct,{critical:45,serious:28,warning:18}), fmt1(d.beyond_pct)+"%")}, fmt1(d.avg_ttf)]),
+    "View all "+areas.length+" locations");
+  $("details.tbl", c3).open = true;
+  root.appendChild(c3);
+}
+
+/* ============================= PAGER ============================= */
+let currentPage = 1;
+const TOTAL_PAGES = 3;
+function goToPage(n){
+  n = Math.max(1, Math.min(TOTAL_PAGES, n));
+  currentPage = n;
+  $$(".page").forEach(p=> p.classList.toggle("active", p.id === "page-"+n));
+  $$(".pagepill").forEach(p=> p.setAttribute("aria-current", p.dataset.page == n ? "true":"false"));
+  $("#pagerLabel").textContent = `Page ${n} of ${TOTAL_PAGES}`;
+  $("#prevBtn").disabled = n===1;
+  $("#nextBtn").disabled = n===TOTAL_PAGES;
+  window.scrollTo({top:0, behavior:"auto"});
+}
+$$(".pagepill").forEach(p=> p.addEventListener("click", ()=> goToPage(parseInt(p.dataset.page,10))));
+$("#prevBtn").addEventListener("click", ()=> goToPage(currentPage-1));
+$("#nextBtn").addEventListener("click", ()=> goToPage(currentPage+1));
+document.addEventListener("keydown", (e)=>{
+  if(e.key==="ArrowRight") goToPage(currentPage+1);
+  if(e.key==="ArrowLeft") goToPage(currentPage-1);
+});
+
+/* ============================= INIT ============================= */
+buildPage1();
+buildPage2();
+buildPage3();
+goToPage(1);
+</script>
