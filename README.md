@@ -19,3 +19,6 @@ Every exit in the Turnover dataset, broken down three ways — nothing capped to
 1. **Position** — total exits, involuntary rate, regrettable rate, and average tenure for all 14 roles. Hover any bar in the Position/Involuntary charts to see that role's top exit reasons.
 2. **Location** — the same cuts across all 25 club locations.
 3. **Exit Survey** — the same cuts across all 16 exit-survey reasons, plus which reasons drive involuntary exits.
+
+### [Engagement](./engagement.html) — survey breakdown
+A one-page heatmap of the 1,636-response Employee Engagement survey, sliced five ways: **Role, Age, Gender, Location, Length of Service**. Each dimension score (Career Growth, Work Clarity, Supportive Workplace, Fair Performance, Compensation Benefit) is colored relative to its own column; eNPS is colored by health (red = at risk, green = healthy) rather than by rank.

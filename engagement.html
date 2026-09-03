@@ -1,0 +1,364 @@
+<meta charset="utf-8">
+<title>FIT HUB Engagement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ============================= TOKENS (FIT HUB brand) ============================= */
+:root{
+  color-scheme: light;
+  --bg: #F1FAFB;
+  --surface: #FFFFFF;
+  --surface-2: #EAF6F7;
+  --ink: #0E2426;
+  --ink-2: #3F6467;
+  --ink-muted: #5A7879;
+  --border: rgba(14,36,38,0.10);
+  --border-strong: rgba(14,36,38,0.17);
+  --accent: #067A82;
+  --accent-ink: #FFFFFF;
+  --accent-soft: rgba(6,122,130,0.10);
+  --shadow: 0 1px 2px rgba(14,36,38,0.05), 0 8px 24px -12px rgba(14,36,38,0.20);
+
+  --brand-teal: #3CC3CD;
+  --brand-yellow: #FBD308;
+  --mark-ink: #06282B;
+  --chrome-bg: #0A2426;
+  --chrome-ink: #F3FEFF;
+  --chrome-ink-soft: #CFEBEC;
+  --chrome-ink-muted: #8FC7C9;
+  --chrome-border: rgba(255,255,255,0.18);
+
+  --ramp-lo: 234,246,247;
+  --ramp-hi: 5,70,75;
+
+  --status-good: #0ca30c;
+  --status-warning: #c98200;
+  --status-serious: #d9683f;
+  --status-critical: #d03b3b;
+  --status-good-bg: rgba(12,163,12,0.12);
+  --status-warning-bg: rgba(201,130,0,0.12);
+  --status-serious-bg: rgba(217,104,63,0.12);
+  --status-critical-bg: rgba(208,59,59,0.12);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg: #071B1D; --surface: #0F2C2F; --surface-2: #143539;
+    --ink: #EAFBFC; --ink-2: #9FC7C9; --ink-muted: #7FA5A7;
+    --border: rgba(255,255,255,0.10); --border-strong: rgba(255,255,255,0.18);
+    --accent: #4FE0E8; --accent-ink: #05282B; --accent-soft: rgba(79,224,232,0.16);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px -14px rgba(0,0,0,0.6);
+    --ramp-lo: 20,52,55; --ramp-hi: 79,224,232;
+    --status-good: #2ec22e; --status-warning: #f0ac2e; --status-serious: #ee916c; --status-critical: #e66767;
+    --status-good-bg: rgba(46,194,46,0.16); --status-warning-bg: rgba(240,172,46,0.16);
+    --status-serious-bg: rgba(238,145,108,0.16); --status-critical-bg: rgba(230,103,103,0.16);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg: #071B1D; --surface: #0F2C2F; --surface-2: #143539;
+  --ink: #EAFBFC; --ink-2: #9FC7C9; --ink-muted: #7FA5A7;
+  --border: rgba(255,255,255,0.10); --border-strong: rgba(255,255,255,0.18);
+  --accent: #4FE0E8; --accent-ink: #05282B; --accent-soft: rgba(79,224,232,0.16);
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px -14px rgba(0,0,0,0.6);
+  --ramp-lo: 20,52,55; --ramp-hi: 79,224,232;
+  --status-good: #2ec22e; --status-warning: #f0ac2e; --status-serious: #ee916c; --status-critical: #e66767;
+  --status-good-bg: rgba(46,194,46,0.16); --status-warning-bg: rgba(240,172,46,0.16);
+  --status-serious-bg: rgba(238,145,108,0.16); --status-critical-bg: rgba(230,103,103,0.16);
+}
+
+/* ============================= BASE ============================= */
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:"Fraunces",Georgia,serif; margin:0; text-wrap:balance;}
+p{margin:0;}
+::selection{background:var(--accent-soft);}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px;}
+a{color:var(--accent);}
+
+.app{max-width:1180px; margin:0 auto; padding:0 20px 64px;}
+
+.topbar{
+  background:var(--chrome-bg); color:var(--chrome-ink);
+  padding:16px 20px; border-bottom:3px solid var(--brand-teal);
+  position:sticky; top:0; z-index:20;
+}
+.topbar-inner{max-width:1180px; margin:0 auto; display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
+.wordmark{display:flex; align-items:center; gap:10px;}
+.wordmark .mark{
+  width:32px; height:32px; border-radius:9px; background:var(--brand-teal);
+  display:flex; align-items:center; justify-content:center; flex:none;
+  color:var(--mark-ink); font-weight:800; font-size:14px; font-family:"Fraunces",serif;
+}
+.wordmark .name{font-family:"Fraunces",serif; font-weight:600; font-size:17px;}
+.wordmark .sub{font-size:10.5px; color:var(--chrome-ink-muted); text-transform:uppercase; letter-spacing:1.3px; margin-top:1px;}
+.topbar-spacer{flex:1;}
+.jumpnav{display:flex; gap:4px; flex-wrap:wrap;}
+.jumpnav a{
+  color:var(--chrome-ink-muted); font-size:12px; font-weight:600; text-decoration:none;
+  padding:7px 12px; border-radius:99px; border:1px solid transparent; white-space:nowrap;
+}
+.jumpnav a:hover{color:var(--chrome-ink); border-color:var(--chrome-border);}
+
+/* ---------- hero ---------- */
+.hero{padding:26px 0 8px;}
+.hero .eyebrow{font-size:11px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:1.2px;}
+.hero h1{font-size:27px; font-weight:600; margin-top:4px;}
+.hero .lede{font-size:13.5px; color:var(--ink-2); max-width:76ch; margin-top:8px; line-height:1.55;}
+
+.kpi-row{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin:18px 0 6px;}
+.kpi{
+  background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  padding:13px 14px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:4px;
+}
+.kpi .kpi-label{font-size:10.5px; color:var(--ink-2); font-weight:600; text-transform:uppercase; letter-spacing:0.4px; line-height:1.3;}
+.kpi .kpi-value{font-family:"Fraunces",serif; font-weight:600; font-size:22px; line-height:1.1;}
+.kpi .kpi-note{font-size:10.5px; color:var(--ink-muted);}
+
+/* ---------- section ---------- */
+.section{padding-top:36px; scroll-margin-top:76px;}
+.section-head{display:flex; align-items:baseline; gap:10px; margin-bottom:4px; flex-wrap:wrap;}
+.section-head .num{font-family:"Fraunces",serif; font-weight:600; font-size:13px; color:var(--accent);}
+.section-head h2{font-size:19px; font-weight:600;}
+.section-lede{font-size:13px; color:var(--ink-2); max-width:80ch; margin:6px 0 14px; line-height:1.5;}
+
+.card{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:8px 8px 14px; box-shadow:var(--shadow);}
+
+/* ---------- heatmap table ---------- */
+.hm-scroll{overflow-x:auto;}
+table.heatmap{border-collapse:separate; border-spacing:3px; width:100%; font-size:12.5px; min-width:640px;}
+table.heatmap th{text-align:left; padding:8px 10px; font-size:10.5px; font-weight:700; color:var(--ink-muted); text-transform:uppercase; letter-spacing:.3px; white-space:nowrap;}
+table.heatmap th.num-col, table.heatmap td.num-col{text-align:center;}
+table.heatmap td{padding:9px 10px; font-variant-numeric:tabular-nums; white-space:nowrap; border-radius:6px; cursor:default;}
+table.heatmap td.name-cell{background:none !important; color:var(--ink); font-weight:600; border-radius:0; padding-left:12px;}
+table.heatmap td.n-cell{background:none !important; color:var(--ink-muted); border-radius:0; text-align:center;}
+table.heatmap td.n-cell.low-n{color:var(--status-warning); font-weight:700;}
+table.heatmap tr:hover td.name-cell{color:var(--accent);}
+
+/* ---------- tooltip ---------- */
+#tooltip{
+  position:fixed; pointer-events:none; z-index:999; background:var(--ink); color:var(--surface);
+  font-size:12px; padding:7px 10px; border-radius:8px; box-shadow:0 8px 22px rgba(0,0,0,0.28);
+  opacity:0; transform:translate(-50%,-100%); transition:opacity .1s ease; max-width:240px; line-height:1.4;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) #tooltip{background:#143539; color:#EAFBFC;} }
+:root[data-theme="dark"] #tooltip{background:#143539; color:#EAFBFC;}
+#tooltip.show{opacity:1;}
+#tooltip .tt-label{font-weight:700; margin-bottom:2px;}
+
+.legend-strip{display:flex; align-items:center; gap:10px; margin:10px 2px 0; font-size:11px; color:var(--ink-muted); flex-wrap:wrap;}
+.legend-ramp{width:110px; height:10px; border-radius:5px; background:linear-gradient(90deg, rgb(var(--ramp-lo)), rgb(var(--ramp-hi))); flex:none;}
+.legend-dot{width:9px; height:9px; border-radius:3px; flex:none; display:inline-block; margin-right:4px; vertical-align:middle;}
+
+footer.appfoot{margin-top:36px; padding-top:16px; border-top:1px solid var(--border); font-size:11.5px; color:var(--ink-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;}
+
+@media (max-width:640px){ .jumpnav{display:none;} }
+</style>
+
+<div id="tooltip"></div>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="wordmark">
+      <div class="mark">FH</div>
+      <div><div class="name">FIT HUB Engagement</div><div class="sub">One-Page Survey Breakdown</div></div>
+    </div>
+    <div class="topbar-spacer"></div>
+    <div class="jumpnav">
+      <a href="#role">Role</a>
+      <a href="#age">Age</a>
+      <a href="#gender">Gender</a>
+      <a href="#location">Location</a>
+      <a href="#tenure">Tenure</a>
+    </div>
+    <a href="./index.html" style="color:var(--chrome-ink-muted); font-size:12px; font-weight:600; text-decoration:none; border:1px solid var(--chrome-border); border-radius:99px; padding:7px 12px; white-space:nowrap;">Requisitions →</a>
+    <a href="./attrition.html" style="color:var(--chrome-ink-muted); font-size:12px; font-weight:600; text-decoration:none; border:1px solid var(--chrome-border); border-radius:99px; padding:7px 12px; white-space:nowrap;">Attrition →</a>
+  </div>
+</div>
+
+<div class="app">
+  <div class="hero">
+    <span class="eyebrow">Employee Engagement Survey</span>
+    <h1>Who's engaged, and who isn't?</h1>
+    <p class="lede">1,636 survey responses, sliced five ways. Every cell below is colored against its own column — darker teal means a stronger score relative to the other groups in that same cut, and the eNPS column is colored by health (red = at risk, green = healthy) rather than by rank.</p>
+    <div class="kpi-row" id="heroKpis"></div>
+  </div>
+
+  <section class="section" id="role"></section>
+  <section class="section" id="age"></section>
+  <section class="section" id="gender"></section>
+  <section class="section" id="location"></section>
+  <section class="section" id="tenure"></section>
+
+  <footer class="appfoot">
+    <span>FIT HUB People Analytics &amp; Intelligence — internal use</span>
+    <span>Source: Employee Engagement dataset · 1,636 responses</span>
+  </footer>
+</div>
+
+<script>
+"use strict";
+const DATA = {"dims":["Career Growth","Work Clarity","Supportive Workplace","Fair Performance","Compensation Benefit"],"total_n":1636,"overall":{"Career Growth":5.36,"Work Clarity":5.43,"Supportive Workplace":5.07,"Fair Performance":4.98,"Compensation Benefit":4.96,"eNPS":56.6},"by_role":[{"name":"Personal Trainer","n":512,"Career Growth":5.41,"Work Clarity":5.45,"Supportive Workplace":5.06,"Fair Performance":5.0,"Compensation Benefit":4.81,"eNPS":54.5},{"name":"Fitness Consultant","n":376,"Career Growth":5.34,"Work Clarity":5.46,"Supportive Workplace":5.15,"Fair Performance":5.03,"Compensation Benefit":4.86,"eNPS":52.9},{"name":"Customer Service","n":345,"Career Growth":5.19,"Work Clarity":5.32,"Supportive Workplace":4.81,"Fair Performance":4.73,"Compensation Benefit":4.99,"eNPS":49.0},{"name":"Housekeeping","n":299,"Career Growth":5.57,"Work Clarity":5.57,"Supportive Workplace":5.29,"Fair Performance":5.16,"Compensation Benefit":5.28,"eNPS":73.6},{"name":"Manajerial Club","n":104,"Career Growth":5.18,"Work Clarity":5.12,"Supportive Workplace":5.0,"Fair Performance":4.99,"Compensation Benefit":5.05,"eNPS":56.7}],"by_age":[{"name":"Under 25","n":284,"Career Growth":5.41,"Work Clarity":5.48,"Supportive Workplace":5.05,"Fair Performance":4.96,"Compensation Benefit":5.03,"eNPS":49.3},{"name":"25-30","n":749,"Career Growth":5.37,"Work Clarity":5.43,"Supportive Workplace":5.06,"Fair Performance":4.96,"Compensation Benefit":4.94,"eNPS":54.6},{"name":"Over 30","n":603,"Career Growth":5.32,"Work Clarity":5.4,"Supportive Workplace":5.08,"Fair Performance":5.0,"Compensation Benefit":4.95,"eNPS":62.5}],"by_gender":[{"name":"Male","n":927,"Career Growth":5.37,"Work Clarity":5.45,"Supportive Workplace":5.08,"Fair Performance":5.01,"Compensation Benefit":4.94,"eNPS":58.1},{"name":"Female","n":709,"Career Growth":5.35,"Work Clarity":5.39,"Supportive Workplace":5.05,"Fair Performance":4.94,"Compensation Benefit":4.99,"eNPS":54.6}],"by_location":[{"name":"Tangerang","n":209,"Career Growth":5.34,"Work Clarity":5.41,"Supportive Workplace":4.94,"Fair Performance":4.89,"Compensation Benefit":4.82,"eNPS":49.8},{"name":"Jakarta Selatan","n":195,"Career Growth":5.32,"Work Clarity":5.39,"Supportive Workplace":5.19,"Fair Performance":5.07,"Compensation Benefit":4.87,"eNPS":55.9},{"name":"Surabaya","n":170,"Career Growth":5.28,"Work Clarity":5.37,"Supportive Workplace":5.08,"Fair Performance":5.01,"Compensation Benefit":4.99,"eNPS":57.6},{"name":"Jakarta Timur","n":129,"Career Growth":5.43,"Work Clarity":5.47,"Supportive Workplace":5.09,"Fair Performance":5.01,"Compensation Benefit":4.97,"eNPS":66.7},{"name":"Bekasi","n":117,"Career Growth":5.23,"Work Clarity":5.27,"Supportive Workplace":4.85,"Fair Performance":4.7,"Compensation Benefit":4.97,"eNPS":60.7},{"name":"Jakarta Barat","n":117,"Career Growth":5.39,"Work Clarity":5.5,"Supportive Workplace":4.97,"Fair Performance":4.86,"Compensation Benefit":4.94,"eNPS":56.4},{"name":"Bali","n":90,"Career Growth":5.16,"Work Clarity":5.36,"Supportive Workplace":4.74,"Fair Performance":4.62,"Compensation Benefit":4.67,"eNPS":37.8},{"name":"Bogor","n":90,"Career Growth":5.28,"Work Clarity":5.34,"Supportive Workplace":4.9,"Fair Performance":4.8,"Compensation Benefit":4.94,"eNPS":50.0},{"name":"Bandung","n":88,"Career Growth":5.43,"Work Clarity":5.43,"Supportive Workplace":5.24,"Fair Performance":5.16,"Compensation Benefit":5.03,"eNPS":58.0},{"name":"Depok","n":65,"Career Growth":5.57,"Work Clarity":5.6,"Supportive Workplace":5.38,"Fair Performance":5.34,"Compensation Benefit":5.22,"eNPS":73.8},{"name":"Jakarta Utara","n":64,"Career Growth":5.5,"Work Clarity":5.55,"Supportive Workplace":5.36,"Fair Performance":5.33,"Compensation Benefit":5.28,"eNPS":75.0},{"name":"Jakarta Pusat","n":63,"Career Growth":5.44,"Work Clarity":5.48,"Supportive Workplace":5.3,"Fair Performance":5.24,"Compensation Benefit":5.03,"eNPS":60.3},{"name":"Semarang","n":42,"Career Growth":5.33,"Work Clarity":5.33,"Supportive Workplace":4.95,"Fair Performance":4.79,"Compensation Benefit":4.88,"eNPS":47.6},{"name":"Makassar","n":34,"Career Growth":5.56,"Work Clarity":5.5,"Supportive Workplace":5.24,"Fair Performance":5.06,"Compensation Benefit":5.09,"eNPS":61.8},{"name":"Yogyakarta","n":22,"Career Growth":5.09,"Work Clarity":5.14,"Supportive Workplace":4.32,"Fair Performance":4.27,"Compensation Benefit":4.91,"eNPS":18.2},{"name":"Sidoarjo","n":18,"Career Growth":5.17,"Work Clarity":5.11,"Supportive Workplace":5.0,"Fair Performance":4.83,"Compensation Benefit":4.89,"eNPS":44.4},{"name":"Batam","n":16,"Career Growth":5.69,"Work Clarity":5.75,"Supportive Workplace":5.56,"Fair Performance":5.75,"Compensation Benefit":5.38,"eNPS":68.8},{"name":"Gresik","n":16,"Career Growth":5.69,"Work Clarity":5.75,"Supportive Workplace":5.0,"Fair Performance":5.25,"Compensation Benefit":5.19,"eNPS":68.8},{"name":"Palembang","n":14,"Career Growth":5.71,"Work Clarity":5.79,"Supportive Workplace":5.64,"Fair Performance":5.57,"Compensation Benefit":5.21,"eNPS":78.6},{"name":"Surakarta","n":14,"Career Growth":5.36,"Work Clarity":5.57,"Supportive Workplace":5.29,"Fair Performance":5.14,"Compensation Benefit":4.93,"eNPS":50.0},{"name":"Malang","n":12,"Career Growth":5.5,"Work Clarity":5.5,"Supportive Workplace":4.75,"Fair Performance":4.33,"Compensation Benefit":5.17,"eNPS":50.0},{"name":"Karawang","n":11,"Career Growth":5.82,"Work Clarity":5.73,"Supportive Workplace":5.64,"Fair Performance":5.55,"Compensation Benefit":5.45,"eNPS":72.7},{"name":"Cileungsi","n":9,"Career Growth":5.67,"Work Clarity":5.78,"Supportive Workplace":5.44,"Fair Performance":5.33,"Compensation Benefit":5.44,"eNPS":66.7},{"name":"Samarinda","n":9,"Career Growth":5.33,"Work Clarity":5.33,"Supportive Workplace":4.89,"Fair Performance":4.89,"Compensation Benefit":4.44,"eNPS":55.6},{"name":"Cilegon","n":8,"Career Growth":5.5,"Work Clarity":5.88,"Supportive Workplace":5.38,"Fair Performance":5.38,"Compensation Benefit":5.25,"eNPS":50.0},{"name":"Cirebon","n":8,"Career Growth":5.75,"Work Clarity":5.62,"Supportive Workplace":5.38,"Fair Performance":5.12,"Compensation Benefit":5.25,"eNPS":62.5},{"name":"Balikpapan","n":6,"Career Growth":4.83,"Work Clarity":5.33,"Supportive Workplace":4.67,"Fair Performance":4.5,"Compensation Benefit":4.83,"eNPS":16.7}],"by_tenure":[{"name":"6 months - 1 year","n":449,"Career Growth":5.46,"Work Clarity":5.52,"Supportive Workplace":5.16,"Fair Performance":5.06,"Compensation Benefit":5.06,"eNPS":59.7},{"name":"1 year - 1.5 years","n":295,"Career Growth":5.28,"Work Clarity":5.4,"Supportive Workplace":4.97,"Fair Performance":4.89,"Compensation Benefit":4.85,"eNPS":50.8},{"name":"1.5 years - 2 years","n":230,"Career Growth":5.39,"Work Clarity":5.44,"Supportive Workplace":5.04,"Fair Performance":4.94,"Compensation Benefit":4.87,"eNPS":54.3},{"name":"2 years - 2.5 years","n":262,"Career Growth":5.29,"Work Clarity":5.31,"Supportive Workplace":5.01,"Fair Performance":4.89,"Compensation Benefit":4.87,"eNPS":55.3},{"name":"2.5 years - 3 years","n":232,"Career Growth":5.33,"Work Clarity":5.43,"Supportive Workplace":5.05,"Fair Performance":5.02,"Compensation Benefit":5.03,"eNPS":58.6},{"name":"More than 3 years","n":168,"Career Growth":5.35,"Work Clarity":5.39,"Supportive Workplace":5.14,"Fair Performance":5.03,"Compensation Benefit":5.08,"eNPS":60.7}]};
+
+/* ============================= UTIL ============================= */
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+const fmt1 = v => (Math.round(v*10)/10).toLocaleString();
+const fmtInt = v => Math.round(v).toLocaleString();
+const cssv = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+function el(tag, attrs={}, children=[]){
+  const n = document.createElement(tag);
+  for(const k in attrs){
+    if(k==="class") n.className = attrs[k];
+    else if(k==="html") n.innerHTML = attrs[k];
+    else if(k.startsWith("on")) n.addEventListener(k.slice(2), attrs[k]);
+    else n.setAttribute(k, attrs[k]);
+  }
+  (Array.isArray(children)?children:[children]).forEach(c=>{
+    if(c==null) return;
+    n.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+  });
+  return n;
+}
+
+const tip = $("#tooltip");
+function showTip(evt, labelHtml, bodyHtml){
+  tip.innerHTML = `<div class="tt-label">${labelHtml}</div>${bodyHtml||""}`;
+  tip.classList.add("show"); moveTip(evt);
+}
+function moveTip(evt){ tip.style.left = evt.clientX + "px"; tip.style.top = (evt.clientY - 12) + "px"; }
+function hideTip(){ tip.classList.remove("show"); }
+document.addEventListener("mousemove", (e)=>{ if(tip.classList.contains("show")) moveTip(e); });
+
+/* ============================= COLOR RAMP ============================= */
+function parseRgbVar(name){ return cssv(name).split(",").map(x=>parseInt(x.trim(),10)); }
+function lerp(a,b,t){ return a.map((c,i)=> Math.round(c + (b[i]-c)*t)); }
+function relLum([r,g,b]){
+  const f = x => { x/=255; return x<=0.03928? x/12.92 : Math.pow((x+0.055)/1.055,2.4); };
+  return 0.2126*f(r)+0.7152*f(g)+0.0722*f(b);
+}
+function textColorFor(rgb){
+  const lum = relLum(rgb);
+  const cw = 1.05/(lum+0.05), cb = (lum+0.05)/0.05;
+  return cw > cb ? "#FFFFFF" : "var(--ink)";
+}
+function seqCellStyle(value, min, max){
+  const lo = parseRgbVar("--ramp-lo"), hi = parseRgbVar("--ramp-hi");
+  const t = max>min ? (value-min)/(max-min) : 0.5;
+  const rgb = lerp(lo, hi, Math.max(0,Math.min(1,t)));
+  return `background:rgb(${rgb.join(",")}); color:${textColorFor(rgb)};`;
+}
+function statusFor(enps){
+  if(enps < 25) return "critical";
+  if(enps < 40) return "serious";
+  if(enps < 50) return "warning";
+  return "good";
+}
+
+/* ============================= HEATMAP TABLE ============================= */
+function heatmapTable(container, rows, dims){
+  const wrap = el("div",{class:"hm-scroll"});
+  const table = el("table",{class:"heatmap"});
+  const thead = el("thead",{}, el("tr",{}, [
+    el("th",{}, "Group"),
+    el("th",{class:"num-col"}, "n"),
+    ...dims.map(d=> el("th",{class:"num-col"}, d)),
+    el("th",{class:"num-col"}, "eNPS"),
+  ]));
+  table.appendChild(thead);
+
+  const bounds = {};
+  dims.forEach(d=>{
+    const vals = rows.map(r=>r[d]);
+    bounds[d] = {min:Math.min(...vals), max:Math.max(...vals)};
+  });
+
+  const tbody = el("tbody");
+  rows.forEach(r=>{
+    const tr = el("tr");
+    tr.appendChild(el("td",{class:"name-cell"}, r.name));
+    const lowN = r.n < 15;
+    const nCell = el("td",{class:"n-cell"+(lowN?" low-n":"")}, fmtInt(r.n)+(lowN?"*":""));
+    nCell.addEventListener("mousemove", e=> showTip(e, r.name, lowN? `${fmtInt(r.n)} responses — small sample, read with caution` : `${fmtInt(r.n)} responses`));
+    nCell.addEventListener("mouseleave", hideTip);
+    tr.appendChild(nCell);
+    dims.forEach(d=>{
+      const td = el("td",{class:"num-col", style: seqCellStyle(r[d], bounds[d].min, bounds[d].max)}, fmt1(r[d]));
+      td.addEventListener("mousemove", e=> showTip(e, r.name, `${d}: <b>${fmt1(r[d])}</b> / 6`));
+      td.addEventListener("mouseleave", hideTip);
+      tr.appendChild(td);
+    });
+    const lvl = statusFor(r.eNPS);
+    const eCell = el("td",{class:"num-col", style:`background:var(--status-${lvl}-bg); color:var(--status-${lvl}); font-weight:700;`}, fmt1(r.eNPS));
+    eCell.addEventListener("mousemove", e=> showTip(e, r.name, `eNPS: <b>${fmt1(r.eNPS)}</b>`));
+    eCell.addEventListener("mouseleave", hideTip);
+    tr.appendChild(eCell);
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  wrap.appendChild(table);
+  container.appendChild(wrap);
+}
+
+function kpiTile(label, value, note){
+  return el("div",{class:"kpi"},[
+    el("div",{class:"kpi-label"}, label),
+    el("div",{class:"kpi-value"}, value),
+    note? el("div",{class:"kpi-note"}, note) : null,
+  ].filter(Boolean));
+}
+
+/* ============================= SECTION BUILDER ============================= */
+function buildSection(id, title, rows, opts={}){
+  const root = $("#"+id);
+  const minN = opts.minN ?? 0;
+  const eligible = rows.filter(r=>r.n>=minN);
+  const best = [...eligible].sort((a,b)=>b.eNPS-a.eNPS)[0];
+  const worst = [...eligible].sort((a,b)=>a.eNPS-b.eNPS)[0];
+
+  root.appendChild(el("div",{class:"section-head"},[
+    el("span",{class:"num"}, opts.num),
+    el("h2",{}, title),
+  ]));
+  root.appendChild(el("p",{class:"section-lede"},
+    `${rows.length} groups, ${fmtInt(rows.reduce((a,r)=>a+r.n,0))} responses. `+
+    `Highest eNPS: `+ `${best.name} (${fmt1(best.eNPS)})` + `. Lowest: ` + `${worst.name} (${fmt1(worst.eNPS)})` +
+    (opts.note ? ` — ${opts.note}` : "") + "."
+  ));
+
+  const card = el("div",{class:"card"});
+  heatmapTable(card, rows, DATA.dims);
+  root.appendChild(card);
+
+  root.appendChild(el("div",{class:"legend-strip"},[
+    el("span",{},"Dimension scores:"), el("span",{class:"legend-ramp"}),
+    el("span",{}, "low → high (relative to this table)"),
+    el("span",{style:"margin-left:14px;"},[
+      el("span",{class:"legend-dot", style:`background:var(--status-critical)`}), "at risk",
+    ]),
+    el("span",{},[
+      el("span",{class:"legend-dot", style:`background:var(--status-good)`}), "healthy eNPS",
+    ]),
+  ]));
+}
+
+/* ============================= INIT ============================= */
+const o = DATA.overall;
+$("#heroKpis").appendChild(kpiTile("Total Responses", fmtInt(DATA.total_n)));
+$("#heroKpis").appendChild(kpiTile("Overall eNPS", fmt1(o.eNPS)));
+DATA.dims.forEach(d=> $("#heroKpis").appendChild(kpiTile(d, fmt1(o[d])+" / 6")));
+
+buildSection("role", "By Role", DATA.by_role, {num:"01"});
+buildSection("age", "By Age", DATA.by_age, {num:"02"});
+buildSection("gender", "By Gender", DATA.by_gender, {num:"03"});
+buildSection("location", "By Location", DATA.by_location, {num:"04", minN:15, note:"ranking excludes locations under 15 responses"});
+buildSection("tenure", "By Length of Service", DATA.by_tenure, {num:"05"});
+</script>
