@@ -1,0 +1,475 @@
+<meta charset="utf-8">
+<title>FIT HUB Attrition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ============================= TOKENS (FIT HUB brand) ============================= */
+:root{
+  color-scheme: light;
+  --bg: #F1FAFB;
+  --surface: #FFFFFF;
+  --surface-2: #EAF6F7;
+  --ink: #0E2426;
+  --ink-2: #3F6467;
+  --ink-muted: #5A7879;
+  --border: rgba(14,36,38,0.10);
+  --border-strong: rgba(14,36,38,0.17);
+  --accent: #067A82;
+  --accent-ink: #FFFFFF;
+  --accent-soft: rgba(6,122,130,0.10);
+  --shadow: 0 1px 2px rgba(14,36,38,0.05), 0 8px 24px -12px rgba(14,36,38,0.20);
+
+  --brand-teal: #3CC3CD;
+  --brand-yellow: #FBD308;
+  --mark-ink: #06282B;
+  --chrome-bg: #0A2426;
+  --chrome-ink: #F3FEFF;
+  --chrome-ink-soft: #CFEBEC;
+  --chrome-ink-muted: #8FC7C9;
+  --chrome-select-bg: #113A3D;
+  --chrome-border: rgba(255,255,255,0.18);
+
+  --series-blue: #2a78d6;
+  --series-orange: #eb6834;
+  --series-aqua: #1baf7a;
+  --series-red: #e34948;
+
+  --status-good: #0ca30c;
+  --status-warning: #c98200;
+  --status-serious: #d9683f;
+  --status-critical: #d03b3b;
+  --status-good-bg: rgba(12,163,12,0.12);
+  --status-warning-bg: rgba(201,130,0,0.12);
+  --status-serious-bg: rgba(217,104,63,0.12);
+  --status-critical-bg: rgba(208,59,59,0.12);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg: #071B1D; --surface: #0F2C2F; --surface-2: #143539;
+    --ink: #EAFBFC; --ink-2: #9FC7C9; --ink-muted: #7FA5A7;
+    --border: rgba(255,255,255,0.10); --border-strong: rgba(255,255,255,0.18);
+    --accent: #4FE0E8; --accent-ink: #05282B; --accent-soft: rgba(79,224,232,0.16);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px -14px rgba(0,0,0,0.6);
+    --series-blue: #3987e5; --series-orange: #d95926; --series-aqua: #199e70; --series-red: #e66767;
+    --status-good: #2ec22e; --status-warning: #f0ac2e; --status-serious: #ee916c; --status-critical: #e66767;
+    --status-good-bg: rgba(46,194,46,0.16); --status-warning-bg: rgba(240,172,46,0.16);
+    --status-serious-bg: rgba(238,145,108,0.16); --status-critical-bg: rgba(230,103,103,0.16);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg: #071B1D; --surface: #0F2C2F; --surface-2: #143539;
+  --ink: #EAFBFC; --ink-2: #9FC7C9; --ink-muted: #7FA5A7;
+  --border: rgba(255,255,255,0.10); --border-strong: rgba(255,255,255,0.18);
+  --accent: #4FE0E8; --accent-ink: #05282B; --accent-soft: rgba(79,224,232,0.16);
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px -14px rgba(0,0,0,0.6);
+  --series-blue: #3987e5; --series-orange: #d95926; --series-aqua: #199e70; --series-red: #e66767;
+  --status-good: #2ec22e; --status-warning: #f0ac2e; --status-serious: #ee916c; --status-critical: #e66767;
+  --status-good-bg: rgba(46,194,46,0.16); --status-warning-bg: rgba(240,172,46,0.16);
+  --status-serious-bg: rgba(238,145,108,0.16); --status-critical-bg: rgba(230,103,103,0.16);
+}
+
+/* ============================= BASE ============================= */
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:"Fraunces",Georgia,serif; margin:0; text-wrap:balance;}
+p{margin:0;}
+::selection{background:var(--accent-soft);}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px;}
+button{font-family:inherit;}
+
+.app{max-width:1180px; margin:0 auto; padding:0 20px 96px;}
+
+.topbar{
+  background:var(--chrome-bg); color:var(--chrome-ink);
+  padding:16px 20px; border-bottom:3px solid var(--brand-teal);
+}
+.topbar-inner{max-width:1180px; margin:0 auto; display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
+.wordmark{display:flex; align-items:center; gap:10px;}
+.wordmark .mark{
+  width:32px; height:32px; border-radius:9px; background:var(--brand-teal);
+  display:flex; align-items:center; justify-content:center; flex:none;
+  color:var(--mark-ink); font-weight:800; font-size:14px; font-family:"Fraunces",serif;
+}
+.wordmark .name{font-family:"Fraunces",serif; font-weight:600; font-size:17px;}
+.wordmark .sub{font-size:10.5px; color:var(--chrome-ink-muted); text-transform:uppercase; letter-spacing:1.3px; margin-top:1px;}
+.topbar-spacer{flex:1;}
+.pagepills{display:flex; gap:6px;}
+.pagepill{
+  appearance:none; border:1px solid var(--chrome-border); background:none; color:var(--chrome-ink-muted);
+  padding:7px 13px; border-radius:99px; font-size:12px; font-weight:600; cursor:pointer; white-space:nowrap;
+}
+.pagepill[aria-current="true"]{background:var(--brand-teal); color:var(--mark-ink); border-color:var(--brand-teal);}
+.pagepill:hover:not([aria-current="true"]){color:var(--chrome-ink); border-color:rgba(255,255,255,0.35);}
+
+/* ---------- pages ---------- */
+.page{display:none; padding-top:28px;}
+.page.active{display:block; animation:fade .25s ease;}
+@media (prefers-reduced-motion: reduce){ .page.active{animation:none;} }
+@keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+
+.page-head{margin-bottom:18px;}
+.page-head .eyebrow{font-size:11px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:1.2px;}
+.page-head h1{font-size:26px; font-weight:600; margin-top:4px;}
+.page-head .lede{font-size:13.5px; color:var(--ink-2); max-width:70ch; margin-top:8px; line-height:1.55;}
+
+/* ---------- kpi ---------- */
+.kpi-row{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin-bottom:18px;}
+.kpi{
+  background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  padding:14px 15px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:6px;
+}
+.kpi .kpi-label{font-size:11.5px; color:var(--ink-2); font-weight:600; text-transform:uppercase; letter-spacing:0.4px; line-height:1.35;}
+.kpi .kpi-value{font-family:"Fraunces",serif; font-weight:600; font-size:25px; line-height:1.1;}
+.kpi .kpi-note{font-size:11px; color:var(--ink-muted);}
+.kpi-chip{align-self:flex-start; font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:99px; text-transform:uppercase; letter-spacing:0.3px;}
+.chip-good{background:var(--status-good-bg); color:var(--status-good);}
+.chip-warning{background:var(--status-warning-bg); color:var(--status-warning);}
+.chip-serious{background:var(--status-serious-bg); color:var(--status-serious);}
+.chip-critical{background:var(--status-critical-bg); color:var(--status-critical);}
+
+/* ---------- grid / card ---------- */
+.grid{display:grid; gap:16px; margin-bottom:16px;}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(360px,1fr));}
+.card{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px 20px 16px; box-shadow:var(--shadow);}
+.card-title{font-size:13.5px; font-weight:700; margin-bottom:2px;}
+.card-sub{font-size:12px; color:var(--ink-muted); margin-bottom:14px;}
+
+/* ---------- bar chart ---------- */
+.barlist{display:flex; flex-direction:column; gap:9px;}
+.barrow{display:grid; grid-template-columns:190px 1fr 54px; align-items:center; gap:10px;}
+.barrow .rlabel{font-size:12.5px; color:var(--ink-2); text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.barrow .rtrack{position:relative; height:15px; background:var(--surface-2); border-radius:4px; overflow:hidden;}
+.barrow .rfill{position:absolute; left:0; top:0; height:100%; border-radius:4px;}
+.barrow .rval{font-size:12px; color:var(--ink); font-variant-numeric:tabular-nums; font-weight:600;}
+@media (max-width:640px){ .barrow{grid-template-columns:110px 1fr 44px;} }
+
+.legend{display:flex; flex-wrap:wrap; gap:12px; margin-top:2px;}
+.legend-item{display:flex; align-items:center; gap:6px; font-size:12px; color:var(--ink-2);}
+.legend-dot{width:9px; height:9px; border-radius:3px; flex:none;}
+
+/* ---------- table ---------- */
+details.tbl{margin-top:12px;}
+details.tbl summary{cursor:pointer; font-size:12px; color:var(--ink-2); font-weight:600; list-style:none; display:flex; align-items:center; gap:5px;}
+details.tbl summary::before{content:"▸"; font-size:10px; transition:transform .15s ease;}
+details.tbl[open] summary::before{transform:rotate(90deg);}
+details.tbl summary::-webkit-details-marker{display:none;}
+.tbl-scroll{overflow-x:auto; margin-top:8px; max-height:460px; overflow-y:auto;}
+table.datatable{border-collapse:collapse; width:100%; font-size:12.5px;}
+table.datatable th{position:sticky; top:0; background:var(--surface); text-align:left; padding:7px 10px; color:var(--ink-muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.3px; border-bottom:1px solid var(--border-strong); white-space:nowrap;}
+table.datatable td{padding:7px 10px; border-bottom:1px solid var(--border); font-variant-numeric:tabular-nums; white-space:nowrap;}
+table.datatable tr:hover td{background:var(--surface-2);}
+.badge{display:inline-block; padding:1px 8px; border-radius:99px; font-size:11px; font-weight:700;}
+
+/* ---------- tooltip ---------- */
+#tooltip{
+  position:fixed; pointer-events:none; z-index:999; background:var(--ink); color:var(--surface);
+  font-size:12px; padding:7px 10px; border-radius:8px; box-shadow:0 8px 22px rgba(0,0,0,0.28);
+  opacity:0; transform:translate(-50%,-100%); transition:opacity .1s ease; max-width:240px; line-height:1.4;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) #tooltip{background:#143539; color:#EAFBFC;} }
+:root[data-theme="dark"] #tooltip{background:#143539; color:#EAFBFC;}
+#tooltip.show{opacity:1;}
+#tooltip .tt-label{font-weight:700; margin-bottom:2px;}
+
+/* ---------- pager nav ---------- */
+.pagernav{
+  position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+  display:flex; align-items:center; gap:10px; background:var(--chrome-bg); color:var(--chrome-ink);
+  padding:8px 10px 8px 16px; border-radius:99px; box-shadow:0 10px 30px rgba(0,0,0,0.25); z-index:30;
+}
+.pagernav .lbl{font-size:12px; color:var(--chrome-ink-muted); white-space:nowrap;}
+.pagernav button{
+  appearance:none; border:none; background:var(--brand-teal); color:var(--mark-ink);
+  width:32px; height:32px; border-radius:50%; font-size:15px; cursor:pointer; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+.pagernav button:disabled{opacity:0.3; cursor:default;}
+.pagernav button.ghost{background:transparent; color:var(--chrome-ink); border:1px solid var(--chrome-border);}
+
+footer.appfoot{margin-top:30px; padding-top:16px; border-top:1px solid var(--border); font-size:11.5px; color:var(--ink-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;}
+</style>
+
+<div id="tooltip"></div>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="wordmark">
+      <div class="mark">FH</div>
+      <div><div class="name">FIT HUB Attrition</div><div class="sub">Exit Analysis</div></div>
+    </div>
+    <div class="topbar-spacer"></div>
+    <div class="pagepills" role="tablist" aria-label="Report pages">
+      <button class="pagepill" data-page="1" aria-current="true">01 · Position</button>
+      <button class="pagepill" data-page="2" aria-current="false">02 · Location</button>
+      <button class="pagepill" data-page="3" aria-current="false">03 · Exit Survey</button>
+    </div>
+    <a href="./index.html" style="color:var(--chrome-ink-muted); font-size:12px; font-weight:600; text-decoration:none; border:1px solid var(--chrome-border); border-radius:99px; padding:7px 13px; white-space:nowrap;">Requisitions report →</a>
+  </div>
+</div>
+
+<div class="app">
+  <section id="page-1" class="page active"></section>
+  <section id="page-2" class="page"></section>
+  <section id="page-3" class="page"></section>
+  <footer class="appfoot">
+    <span>FIT HUB People Analytics &amp; Intelligence — internal use</span>
+    <span>Source: Turnover dataset · 889 exits, every category shown</span>
+  </footer>
+</div>
+
+<div class="pagernav">
+  <button class="ghost" id="prevBtn" aria-label="Previous page">←</button>
+  <span class="lbl" id="pagerLabel">Page 1 of 3</span>
+  <button id="nextBtn" aria-label="Next page">→</button>
+</div>
+
+<script>
+"use strict";
+const DATA = {"kpis":{"total_exits":889,"positions_count":14,"locations_count":25,"reasons_count":16,"voluntary_total":606,"involuntary_total":283,"regrettable_total":247,"avg_tenure_months":12.4},"by_position":[{"name":"Fitness Consultant","total":380,"share_pct":42.7,"voluntary":247,"involuntary":133,"voluntary_pct":65.0,"involuntary_pct":35.0,"regrettable":58,"regrettable_pct":15.3,"avg_tenure_months":9.3,"procedure_pct":59.7},{"name":"Personal Trainer","total":254,"share_pct":28.6,"voluntary":177,"involuntary":77,"voluntary_pct":69.7,"involuntary_pct":30.3,"regrettable":68,"regrettable_pct":26.8,"avg_tenure_months":13.0,"procedure_pct":75.2},{"name":"Customer Service","total":103,"share_pct":11.6,"voluntary":83,"involuntary":20,"voluntary_pct":80.6,"involuntary_pct":19.4,"regrettable":63,"regrettable_pct":61.2,"avg_tenure_months":11.1,"procedure_pct":67.0},{"name":"Housekeeping","total":47,"share_pct":5.3,"voluntary":34,"involuntary":13,"voluntary_pct":72.3,"involuntary_pct":27.7,"regrettable":26,"regrettable_pct":55.3,"avg_tenure_months":13.1,"procedure_pct":70.2},{"name":"Housekeeping Staff","total":37,"share_pct":4.2,"voluntary":15,"involuntary":22,"voluntary_pct":40.5,"involuntary_pct":59.5,"regrettable":6,"regrettable_pct":16.2,"avg_tenure_months":16.0,"procedure_pct":75.7},{"name":"Fitness Consultant Leader","total":17,"share_pct":1.9,"voluntary":15,"involuntary":2,"voluntary_pct":88.2,"involuntary_pct":11.8,"regrettable":10,"regrettable_pct":58.8,"avg_tenure_months":28.4,"procedure_pct":76.5},{"name":"Personal Trainer Leader","total":11,"share_pct":1.2,"voluntary":8,"involuntary":3,"voluntary_pct":72.7,"involuntary_pct":27.3,"regrettable":2,"regrettable_pct":18.2,"avg_tenure_months":28.2,"procedure_pct":72.7},{"name":"Personal Trainer Master","total":10,"share_pct":1.1,"voluntary":7,"involuntary":3,"voluntary_pct":70.0,"involuntary_pct":30.0,"regrettable":5,"regrettable_pct":50.0,"avg_tenure_months":33.7,"procedure_pct":100.0},{"name":"Operation Manager","total":9,"share_pct":1.0,"voluntary":6,"involuntary":3,"voluntary_pct":66.7,"involuntary_pct":33.3,"regrettable":1,"regrettable_pct":11.1,"avg_tenure_months":16.9,"procedure_pct":88.9},{"name":"Customer Service Leader","total":7,"share_pct":0.8,"voluntary":4,"involuntary":3,"voluntary_pct":57.1,"involuntary_pct":42.9,"regrettable":4,"regrettable_pct":57.1,"avg_tenure_months":28.1,"procedure_pct":57.1},{"name":"Club Manager","total":6,"share_pct":0.7,"voluntary":4,"involuntary":2,"voluntary_pct":66.7,"involuntary_pct":33.3,"regrettable":1,"regrettable_pct":16.7,"avg_tenure_months":16.2,"procedure_pct":100.0},{"name":"Sales Manager","total":5,"share_pct":0.6,"voluntary":3,"involuntary":2,"voluntary_pct":60.0,"involuntary_pct":40.0,"regrettable":2,"regrettable_pct":40.0,"avg_tenure_months":25.8,"procedure_pct":100.0},{"name":"Fitness Manager","total":2,"share_pct":0.2,"voluntary":2,"involuntary":0,"voluntary_pct":100.0,"involuntary_pct":0.0,"regrettable":0,"regrettable_pct":0.0,"avg_tenure_months":26.5,"procedure_pct":50.0},{"name":"Area General Manager","total":1,"share_pct":0.1,"voluntary":1,"involuntary":0,"voluntary_pct":100.0,"involuntary_pct":0.0,"regrettable":1,"regrettable_pct":100.0,"avg_tenure_months":48.0,"procedure_pct":100.0}],"by_location":[{"name":"Bali","total":110,"share_pct":12.4,"voluntary":94,"involuntary":16,"voluntary_pct":85.5,"involuntary_pct":14.5,"regrettable":51,"regrettable_pct":46.4,"avg_tenure_months":8.5,"procedure_pct":55.5},{"name":"Tangerang","total":96,"share_pct":10.8,"voluntary":64,"involuntary":32,"voluntary_pct":66.7,"involuntary_pct":33.3,"regrettable":28,"regrettable_pct":29.2,"avg_tenure_months":14.1,"procedure_pct":74.0},{"name":"Jakarta Selatan","total":95,"share_pct":10.7,"voluntary":56,"involuntary":39,"voluntary_pct":58.9,"involuntary_pct":41.1,"regrettable":23,"regrettable_pct":24.2,"avg_tenure_months":15.6,"procedure_pct":69.5},{"name":"Surabaya","total":73,"share_pct":8.2,"voluntary":46,"involuntary":27,"voluntary_pct":63.0,"involuntary_pct":37.0,"regrettable":24,"regrettable_pct":32.9,"avg_tenure_months":17.5,"procedure_pct":80.8},{"name":"Jakarta Barat","total":62,"share_pct":7.0,"voluntary":39,"involuntary":23,"voluntary_pct":62.9,"involuntary_pct":37.1,"regrettable":15,"regrettable_pct":24.2,"avg_tenure_months":15.9,"procedure_pct":80.6},{"name":"Jakarta Timur","total":58,"share_pct":6.5,"voluntary":43,"involuntary":15,"voluntary_pct":74.1,"involuntary_pct":25.9,"regrettable":10,"regrettable_pct":17.2,"avg_tenure_months":13.4,"procedure_pct":75.9},{"name":"Bogor","total":50,"share_pct":5.6,"voluntary":29,"involuntary":21,"voluntary_pct":58.0,"involuntary_pct":42.0,"regrettable":7,"regrettable_pct":14.0,"avg_tenure_months":12.4,"procedure_pct":60.0},{"name":"Bekasi","total":49,"share_pct":5.5,"voluntary":38,"involuntary":11,"voluntary_pct":77.6,"involuntary_pct":22.4,"regrettable":13,"regrettable_pct":26.5,"avg_tenure_months":7.8,"procedure_pct":67.3},{"name":"Semarang","total":44,"share_pct":4.9,"voluntary":32,"involuntary":12,"voluntary_pct":72.7,"involuntary_pct":27.3,"regrettable":13,"regrettable_pct":29.5,"avg_tenure_months":10.5,"procedure_pct":65.9},{"name":"Bandung","total":43,"share_pct":4.8,"voluntary":31,"involuntary":12,"voluntary_pct":72.1,"involuntary_pct":27.9,"regrettable":16,"regrettable_pct":37.2,"avg_tenure_months":16.0,"procedure_pct":65.1},{"name":"Yogyakarta","total":31,"share_pct":3.5,"voluntary":23,"involuntary":8,"voluntary_pct":74.2,"involuntary_pct":25.8,"regrettable":8,"regrettable_pct":25.8,"avg_tenure_months":7.3,"procedure_pct":41.9},{"name":"Jakarta Utara","total":30,"share_pct":3.4,"voluntary":17,"involuntary":13,"voluntary_pct":56.7,"involuntary_pct":43.3,"regrettable":4,"regrettable_pct":13.3,"avg_tenure_months":13.7,"procedure_pct":70.0},{"name":"Jakarta Pusat","total":27,"share_pct":3.0,"voluntary":13,"involuntary":14,"voluntary_pct":48.1,"involuntary_pct":51.9,"regrettable":1,"regrettable_pct":3.7,"avg_tenure_months":15.8,"procedure_pct":77.8},{"name":"Depok","total":23,"share_pct":2.6,"voluntary":9,"involuntary":14,"voluntary_pct":39.1,"involuntary_pct":60.9,"regrettable":1,"regrettable_pct":4.3,"avg_tenure_months":9.5,"procedure_pct":65.2},{"name":"Surakarta","total":22,"share_pct":2.5,"voluntary":16,"involuntary":6,"voluntary_pct":72.7,"involuntary_pct":27.3,"regrettable":4,"regrettable_pct":18.2,"avg_tenure_months":5.5,"procedure_pct":40.9},{"name":"Balikpapan","total":13,"share_pct":1.5,"voluntary":10,"involuntary":3,"voluntary_pct":76.9,"involuntary_pct":23.1,"regrettable":5,"regrettable_pct":38.5,"avg_tenure_months":4.9,"procedure_pct":76.9},{"name":"Batam","total":13,"share_pct":1.5,"voluntary":10,"involuntary":3,"voluntary_pct":76.9,"involuntary_pct":23.1,"regrettable":7,"regrettable_pct":53.8,"avg_tenure_months":6.1,"procedure_pct":76.9},{"name":"Cilegon","total":13,"share_pct":1.5,"voluntary":9,"involuntary":4,"voluntary_pct":69.2,"involuntary_pct":30.8,"regrettable":4,"regrettable_pct":30.8,"avg_tenure_months":4.9,"procedure_pct":53.8},{"name":"Makassar","total":7,"share_pct":0.8,"voluntary":6,"involuntary":1,"voluntary_pct":85.7,"involuntary_pct":14.3,"regrettable":3,"regrettable_pct":42.9,"avg_tenure_months":12.9,"procedure_pct":71.4},{"name":"Malang","total":7,"share_pct":0.8,"voluntary":4,"involuntary":3,"voluntary_pct":57.1,"involuntary_pct":42.9,"regrettable":2,"regrettable_pct":28.6,"avg_tenure_months":9.0,"procedure_pct":85.7},{"name":"Sidoarjo","total":7,"share_pct":0.8,"voluntary":6,"involuntary":1,"voluntary_pct":85.7,"involuntary_pct":14.3,"regrettable":4,"regrettable_pct":57.1,"avg_tenure_months":15.1,"procedure_pct":100.0},{"name":"Gresik","total":6,"share_pct":0.7,"voluntary":3,"involuntary":3,"voluntary_pct":50.0,"involuntary_pct":50.0,"regrettable":1,"regrettable_pct":16.7,"avg_tenure_months":17.2,"procedure_pct":66.7},{"name":"Samarinda","total":6,"share_pct":0.7,"voluntary":5,"involuntary":1,"voluntary_pct":83.3,"involuntary_pct":16.7,"regrettable":1,"regrettable_pct":16.7,"avg_tenure_months":5.5,"procedure_pct":33.3},{"name":"Karawang","total":2,"share_pct":0.2,"voluntary":2,"involuntary":0,"voluntary_pct":100.0,"involuntary_pct":0.0,"regrettable":2,"regrettable_pct":100.0,"avg_tenure_months":8.0,"procedure_pct":100.0},{"name":"Palembang","total":2,"share_pct":0.2,"voluntary":1,"involuntary":1,"voluntary_pct":50.0,"involuntary_pct":50.0,"regrettable":0,"regrettable_pct":0.0,"avg_tenure_months":7.5,"procedure_pct":50.0}],"by_reason":[{"name":"Career Development/ Pursue Career Goals","total":196,"share_pct":22.0,"voluntary":195,"involuntary":1,"voluntary_pct":99.5,"involuntary_pct":0.5,"regrettable":83,"regrettable_pct":42.3,"avg_tenure_months":12.9,"procedure_pct":68.9},{"name":"Performance Issue","total":155,"share_pct":17.4,"voluntary":9,"involuntary":146,"voluntary_pct":5.8,"involuntary_pct":94.2,"regrettable":6,"regrettable_pct":3.9,"avg_tenure_months":15.2,"procedure_pct":92.9},{"name":"Family Reason","total":154,"share_pct":17.3,"voluntary":154,"involuntary":0,"voluntary_pct":100.0,"involuntary_pct":0.0,"regrettable":71,"regrettable_pct":46.1,"avg_tenure_months":13.6,"procedure_pct":70.8},{"name":"Regulatory Violations","total":130,"share_pct":14.6,"voluntary":2,"involuntary":128,"voluntary_pct":1.5,"involuntary_pct":98.5,"regrettable":1,"regrettable_pct":0.8,"avg_tenure_months":10.3,"procedure_pct":50.8},{"name":"Health Issue","total":55,"share_pct":6.2,"voluntary":55,"involuntary":0,"voluntary_pct":100.0,"involuntary_pct":0.0,"regrettable":23,"regrettable_pct":41.8,"avg_tenure_months":8.6,"procedure_pct":60.0},{"name":"Others","total":46,"share_pct":5.2,"voluntary":46,"involuntary":0,"voluntary_pct":100.0,"involuntary_pct":0.0,"regrettable":16,"regrettable_pct":34.8,"avg_tenure_months":14.3,"procedure_pct":69.6},{"name":"Missing/ No Valid Reason","total":37,"share_pct":4.2,"voluntary":31,"involuntary":6,"voluntary_pct":83.8,"involuntary_pct":16.2,"regrettable":3,"regrettable_pct":8.1,"avg_tenure_months":6.5,"procedure_pct":16.2},{"name":"Continuing Education","total":22,"share_pct":2.5,"voluntary":22,"involuntary":0,"voluntary_pct":100.0,"involuntary_pct":0.0,"regrettable":14,"regrettable_pct":63.6,"avg_tenure_months":12.1,"procedure_pct":86.4},{"name":"Compensation & Benefits","total":19,"share_pct":2.1,"voluntary":19,"involuntary":0,"voluntary_pct":100.0,"involuntary_pct":0.0,"regrettable":9,"regrettable_pct":47.4,"avg_tenure_months":17.5,"procedure_pct":78.9},{"name":"Unfit with Role","total":18,"share_pct":2.0,"voluntary":18,"involuntary":0,"voluntary_pct":100.0,"involuntary_pct":0.0,"regrettable":4,"regrettable_pct":22.2,"avg_tenure_months":6.1,"procedure_pct":38.9},{"name":"Commute","total":16,"share_pct":1.8,"voluntary":15,"involuntary":1,"voluntary_pct":93.8,"involuntary_pct":6.2,"regrettable":6,"regrettable_pct":37.5,"avg_tenure_months":11.4,"procedure_pct":68.8},{"name":"Workload","total":15,"share_pct":1.7,"voluntary":15,"involuntary":0,"voluntary_pct":100.0,"involuntary_pct":0.0,"regrettable":5,"regrettable_pct":33.3,"avg_tenure_months":11.8,"procedure_pct":80.0},{"name":"Work Environment","total":13,"share_pct":1.5,"voluntary":13,"involuntary":0,"voluntary_pct":100.0,"involuntary_pct":0.0,"regrettable":4,"regrettable_pct":30.8,"avg_tenure_months":5.0,"procedure_pct":53.8},{"name":"Relationship with Superior/Peers","total":6,"share_pct":0.7,"voluntary":5,"involuntary":1,"voluntary_pct":83.3,"involuntary_pct":16.7,"regrettable":1,"regrettable_pct":16.7,"avg_tenure_months":12.0,"procedure_pct":66.7},{"name":"Attitude issue","total":5,"share_pct":0.6,"voluntary":5,"involuntary":0,"voluntary_pct":100.0,"involuntary_pct":0.0,"regrettable":0,"regrettable_pct":0.0,"avg_tenure_months":19.8,"procedure_pct":60.0},{"name":"Workload/Work Schedule","total":2,"share_pct":0.2,"voluntary":2,"involuntary":0,"voluntary_pct":100.0,"involuntary_pct":0.0,"regrettable":1,"regrettable_pct":50.0,"avg_tenure_months":16.0,"procedure_pct":50.0}]};
+
+/** Top exit-survey reasons per position — powers the rich hover tooltip on the Position charts. */
+const REASONS_BY_POSITION = {"Area General Manager":[{"name":"Career Development/ Pursue Career Goals","value":1,"pct":100.0}],"Club Manager":[{"name":"Regulatory Violations","value":2,"pct":33.3},{"name":"Compensation & Benefits","value":1,"pct":16.7},{"name":"Career Development/ Pursue Career Goals","value":1,"pct":16.7},{"name":"Family Reason","value":1,"pct":16.7}],"Customer Service":[{"name":"Career Development/ Pursue Career Goals","value":36,"pct":35.0},{"name":"Family Reason","value":18,"pct":17.5},{"name":"Missing/ No Valid Reason","value":10,"pct":9.7},{"name":"Performance Issue","value":9,"pct":8.7}],"Customer Service Leader":[{"name":"Performance Issue","value":2,"pct":28.6},{"name":"Continuing Education","value":1,"pct":14.3},{"name":"Family Reason","value":1,"pct":14.3},{"name":"Regulatory Violations","value":1,"pct":14.3}],"Fitness Consultant":[{"name":"Career Development/ Pursue Career Goals","value":80,"pct":21.1},{"name":"Performance Issue","value":72,"pct":18.9},{"name":"Family Reason","value":65,"pct":17.1},{"name":"Regulatory Violations","value":60,"pct":15.8}],"Fitness Consultant Leader":[{"name":"Family Reason","value":5,"pct":29.4},{"name":"Career Development/ Pursue Career Goals","value":4,"pct":23.5},{"name":"Compensation & Benefits","value":3,"pct":17.6},{"name":"Regulatory Violations","value":2,"pct":11.8}],"Fitness Manager":[{"name":"Missing/ No Valid Reason","value":1,"pct":50.0},{"name":"Workload","value":1,"pct":50.0}],"Housekeeping":[{"name":"Family Reason","value":10,"pct":21.3},{"name":"Career Development/ Pursue Career Goals","value":9,"pct":19.1},{"name":"Performance Issue","value":8,"pct":17.0},{"name":"Regulatory Violations","value":5,"pct":10.6}],"Housekeeping Staff":[{"name":"Performance Issue","value":12,"pct":32.4},{"name":"Regulatory Violations","value":10,"pct":27.0},{"name":"Family Reason","value":6,"pct":16.2},{"name":"Health Issue","value":4,"pct":10.8}],"Operation Manager":[{"name":"Performance Issue","value":3,"pct":33.3},{"name":"Family Reason","value":2,"pct":22.2},{"name":"Health Issue","value":1,"pct":11.1},{"name":"Relationship with Superior/Peers","value":1,"pct":11.1}],"Personal Trainer":[{"name":"Career Development/ Pursue Career Goals","value":51,"pct":20.1},{"name":"Performance Issue","value":46,"pct":18.1},{"name":"Family Reason","value":42,"pct":16.5},{"name":"Regulatory Violations","value":37,"pct":14.6}],"Personal Trainer Leader":[{"name":"Career Development/ Pursue Career Goals","value":4,"pct":36.4},{"name":"Family Reason","value":4,"pct":36.4},{"name":"Regulatory Violations","value":3,"pct":27.3}],"Personal Trainer Master":[{"name":"Career Development/ Pursue Career Goals","value":4,"pct":40.0},{"name":"Others","value":3,"pct":30.0},{"name":"Regulatory Violations","value":2,"pct":20.0},{"name":"Performance Issue","value":1,"pct":10.0}],"Sales Manager":[{"name":"Performance Issue","value":2,"pct":40.0},{"name":"Career Development/ Pursue Career Goals","value":1,"pct":20.0},{"name":"Workload","value":1,"pct":20.0},{"name":"Health Issue","value":1,"pct":20.0}]};
+
+/* ============================= UTIL ============================= */
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+const fmt1 = v => (Math.round(v*10)/10).toLocaleString();
+const fmtInt = v => Math.round(v).toLocaleString();
+const cssv = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+function el(tag, attrs={}, children=[]){
+  const n = document.createElement(tag);
+  for(const k in attrs){
+    if(k==="class") n.className = attrs[k];
+    else if(k==="html") n.innerHTML = attrs[k];
+    else if(k.startsWith("on")) n.addEventListener(k.slice(2), attrs[k]);
+    else n.setAttribute(k, attrs[k]);
+  }
+  (Array.isArray(children)?children:[children]).forEach(c=>{
+    if(c==null) return;
+    n.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+  });
+  return n;
+}
+
+const tip = $("#tooltip");
+function showTip(evt, labelHtml, bodyHtml){
+  tip.innerHTML = `<div class="tt-label">${labelHtml}</div>${bodyHtml||""}`;
+  tip.classList.add("show"); moveTip(evt);
+}
+function moveTip(evt){ tip.style.left = evt.clientX + "px"; tip.style.top = (evt.clientY - 12) + "px"; }
+function hideTip(){ tip.classList.remove("show"); }
+document.addEventListener("mousemove", (e)=>{ if(tip.classList.contains("show")) moveTip(e); });
+
+function badgeFor(pct, t){ if(pct>=t.critical) return "critical"; if(pct>=t.serious) return "serious"; if(pct>=t.warning) return "warning"; return "good"; }
+function badgeHtml(level, text){ return `<span class="badge" style="background:var(--status-${level}-bg); color:var(--status-${level});">${text}</span>`; }
+
+function kpiTile(label, value, level, note){
+  return el("div",{class:"kpi"},[
+    el("div",{class:"kpi-label"}, label),
+    el("div",{class:"kpi-value"}, value),
+    level? (()=>{ const s=document.createElement("span"); s.className=`kpi-chip chip-${level}`; s.textContent = level==="good"?"Healthy":level==="critical"?"Critical":level==="serious"?"Elevated":"Watch"; return s; })() : null,
+    note? el("div",{class:"kpi-note"}, note) : null,
+  ].filter(Boolean));
+}
+
+function barList(opts){
+  const max = opts.max ?? Math.max(...opts.data.map(d=>d.value), 1);
+  const wrap = el("div", {class:"barlist"});
+  opts.data.forEach(d=>{
+    const pct = Math.max(2, (d.value/max)*100);
+    const color = typeof opts.color === "function" ? opts.color(d) : opts.color;
+    const row = el("div", {class:"barrow"});
+    row.appendChild(el("div", {class:"rlabel", title:d.label}, d.label));
+    const track = el("div", {class:"rtrack"});
+    track.appendChild(el("div", {class:"rfill", style:`width:${pct}%; background:${color};`}));
+    row.appendChild(track);
+    row.appendChild(el("div", {class:"rval"}, opts.valueFmt ? opts.valueFmt(d.value) : fmt1(d.value)));
+    row.addEventListener("mousemove", e=>{ showTip(e, d.label, opts.tooltip? opts.tooltip(d): (opts.valueFmt?opts.valueFmt(d.value):d.value)); });
+    row.addEventListener("mouseleave", hideTip);
+    wrap.appendChild(row);
+  });
+  opts.container.appendChild(wrap);
+}
+
+function dataTable(container, headers, rows, summaryText, open){
+  const det = el("details", {class:"tbl"});
+  if(open) det.setAttribute("open","");
+  det.appendChild(el("summary",{}, summaryText || "View as table"));
+  const scrollWrap = el("div", {class:"tbl-scroll"});
+  const table = el("table", {class:"datatable"});
+  table.appendChild(el("thead", {}, el("tr", {}, headers.map(h=>el("th",{},h)))));
+  table.appendChild(el("tbody", {}, rows.map(r=> el("tr",{}, r.map(c=>{
+    if(c && typeof c === "object" && c.html !== undefined) return el("td",{html:c.html});
+    return el("td",{}, String(c));
+  })) )));
+  scrollWrap.appendChild(table); det.appendChild(scrollWrap); container.appendChild(det);
+}
+
+/** Formats "N exits" (or similar headline) plus a top-reasons breakdown for hover tooltips. */
+function reasonBreakdownHtml(name, headline, lookup){
+  const reasons = lookup && lookup[name];
+  if(!reasons || !reasons.length) return headline;
+  const lines = reasons.map(r=> `${r.name.split("/")[0].trim()} — ${fmt1(r.pct)}%`).join("<br>");
+  return `${headline}<br><br><b>Top exit reasons</b><br>${lines}`;
+}
+
+/* ============================= SHARED DIMENSION PAGE BUILDER ============================= */
+/**
+ * Builds a full "by X" analysis page: total count chart, involuntary-rate chart,
+ * regrettable-rate chart, avg-tenure chart, and a full data table — every category
+ * in the dataset is included, nothing is capped to a top-N.
+ */
+function buildDimensionPage(rootId, opts){
+  const root = $(rootId);
+  const rows = opts.rows;
+  const n = rows.length;
+
+  root.appendChild(el("div",{class:"page-head"},[
+    el("span",{class:"eyebrow"}, opts.eyebrow),
+    el("h1",{}, opts.title),
+    el("p",{class:"lede"}, opts.lede),
+  ]));
+
+  root.appendChild(el("div",{class:"kpi-row"}, opts.kpis));
+
+  const grid = el("div",{class:"grid grid-2"});
+
+  const c1 = el("div",{class:"card"});
+  c1.appendChild(el("div",{class:"card-title"}, `Total exits by ${opts.dimLabel} — all ${n}`));
+  c1.appendChild(el("div",{class:"card-sub"}, opts.reasonLookup ? "Highest to lowest · hover a bar to see why" : "Highest to lowest"));
+  barList({container:c1, data:[...rows].sort((a,b)=>b.total-a.total).map(d=>({label:d.name, value:d.total})),
+    color:cssv("--accent"), valueFmt:fmtInt,
+    tooltip: opts.reasonLookup ? d=> reasonBreakdownHtml(d.label, `${fmtInt(d.value)} exits`, opts.reasonLookup) : undefined});
+  grid.appendChild(c1);
+
+  const c2 = el("div",{class:"card"});
+  c2.appendChild(el("div",{class:"card-title"}, `Involuntary exit rate by ${opts.dimLabel}`));
+  c2.appendChild(el("div",{class:"card-sub"},"Share of exits that were terminations · highest to lowest"));
+  barList({container:c2, data:[...rows].sort((a,b)=>b.involuntary_pct-a.involuntary_pct).map(d=>({label:d.name, value:d.involuntary_pct, n:d.total})),
+    max:100, valueFmt:v=>fmt1(v)+"%",
+    color:d=> d.value>=50?cssv("--status-critical"): d.value>=30?cssv("--status-serious"): d.value>=15?cssv("--status-warning"):cssv("--status-good"),
+    tooltip:d=> reasonBreakdownHtml(d.label, `${fmt1(d.value)}% involuntary · ${fmtInt(d.n)} exits`, opts.reasonLookup)});
+  grid.appendChild(c2);
+  root.appendChild(grid);
+
+  const grid2 = el("div",{class:"grid grid-2"});
+  const c3 = el("div",{class:"card"});
+  c3.appendChild(el("div",{class:"card-title"}, `Regrettable-exit rate by ${opts.dimLabel}`));
+  c3.appendChild(el("div",{class:"card-sub"},"Share flagged as losing a good performer · highest to lowest"));
+  barList({container:c3, data:[...rows].sort((a,b)=>b.regrettable_pct-a.regrettable_pct).map(d=>({label:d.name, value:d.regrettable_pct, n:d.total})),
+    max:100, valueFmt:v=>fmt1(v)+"%",
+    color:d=> d.value>=45?cssv("--status-critical"): d.value>=28?cssv("--status-serious"): d.value>=15?cssv("--status-warning"):cssv("--status-good"),
+    tooltip:d=> reasonBreakdownHtml(d.label, `${fmt1(d.value)}% regrettable · ${fmtInt(d.n)} exits`, opts.reasonLookup)});
+  grid2.appendChild(c3);
+
+  const c4 = el("div",{class:"card"});
+  c4.appendChild(el("div",{class:"card-title"}, `Avg. tenure at exit by ${opts.dimLabel}`));
+  c4.appendChild(el("div",{class:"card-sub"},"Months of service · highest to lowest"));
+  barList({container:c4, data:[...rows].sort((a,b)=>b.avg_tenure_months-a.avg_tenure_months).map(d=>({label:d.name, value:d.avg_tenure_months})),
+    valueFmt:v=>fmt1(v)+"mo", color:cssv("--series-orange")});
+  grid2.appendChild(c4);
+  root.appendChild(grid2);
+
+  const c5 = el("div",{class:"card"});
+  c5.appendChild(el("div",{class:"card-title"}, `Full breakdown by ${opts.dimLabel}`));
+  c5.appendChild(el("div",{class:"card-sub"}, `All ${n} ${opts.dimLabelPlural}, sorted by exit volume`));
+  dataTable(c5, [opts.dimLabelCap,"Total","Share %","Voluntary","Involuntary","Involuntary %","Regrettable %","Avg. Tenure (mo)","Procedure Followed %"],
+    [...rows].sort((a,b)=>b.total-a.total).map(d=>[
+      d.name, d.total, fmt1(d.share_pct)+"%", d.voluntary, d.involuntary,
+      {html: badgeHtml(badgeFor(d.involuntary_pct,{critical:50,serious:30,warning:15}), fmt1(d.involuntary_pct)+"%")},
+      {html: badgeHtml(badgeFor(d.regrettable_pct,{critical:45,serious:28,warning:15}), fmt1(d.regrettable_pct)+"%")},
+      fmt1(d.avg_tenure_months), fmt1(d.procedure_pct)+"%",
+    ]),
+    `View all ${n} ${opts.dimLabelPlural}`, true);
+  root.appendChild(c5);
+}
+
+/* ============================= BUILD PAGES ============================= */
+function buildAll(){
+  const k = DATA.kpis;
+
+  const topPosition = [...DATA.by_position].sort((a,b)=>b.total-a.total)[0];
+  const worstInvolPosition = [...DATA.by_position].filter(d=>d.total>=10).sort((a,b)=>b.involuntary_pct-a.involuntary_pct)[0];
+  buildDimensionPage("#page-1", {
+    eyebrow:"Attrition · by Position",
+    title:"Which roles are we losing people from?",
+    lede:"All 14 positions represented in the Turnover dataset — Fitness Consultant and Personal Trainer alone account for 71.3% of every exit logged.",
+    dimLabel:"position", dimLabelCap:"Position", dimLabelPlural:"positions",
+    rows: DATA.by_position,
+    reasonLookup: REASONS_BY_POSITION,
+    kpis: [
+      kpiTile("Total Exits", fmtInt(k.total_exits)),
+      kpiTile("Positions Represented", fmtInt(k.positions_count)),
+      kpiTile("Largest Share", topPosition.name, "critical", fmt1(topPosition.share_pct)+"% of all exits ("+fmtInt(topPosition.total)+")"),
+      kpiTile("Highest Involuntary Rate", worstInvolPosition.name, "warning", fmt1(worstInvolPosition.involuntary_pct)+"% of "+fmtInt(worstInvolPosition.total)+" exits (n≥10)"),
+    ],
+  });
+
+  const topLocation = [...DATA.by_location].sort((a,b)=>b.total-a.total)[0];
+  const worstInvolLocation = [...DATA.by_location].filter(d=>d.total>=10).sort((a,b)=>b.involuntary_pct-a.involuntary_pct)[0];
+  buildDimensionPage("#page-2", {
+    eyebrow:"Attrition · by Location",
+    title:"Where is attrition concentrated?",
+    lede:`All ${k.locations_count} club locations that logged an exit — Bali is the single largest source of attrition by volume, while Depok runs the highest involuntary-exit rate among sites with meaningful volume.`,
+    dimLabel:"location", dimLabelCap:"Location", dimLabelPlural:"locations",
+    rows: DATA.by_location,
+    kpis: [
+      kpiTile("Total Exits", fmtInt(k.total_exits)),
+      kpiTile("Locations Represented", fmtInt(k.locations_count)),
+      kpiTile("Largest Share", topLocation.name, "critical", fmt1(topLocation.share_pct)+"% of all exits ("+fmtInt(topLocation.total)+")"),
+      kpiTile("Highest Involuntary Rate", worstInvolLocation.name, "warning", fmt1(worstInvolLocation.involuntary_pct)+"% of "+fmtInt(worstInvolLocation.total)+" exits (n≥10)"),
+    ],
+  });
+
+  const topReason = [...DATA.by_reason].sort((a,b)=>b.total-a.total)[0];
+  const perf = DATA.by_reason.find(d=>d.name==="Performance Issue");
+  const reg = DATA.by_reason.find(d=>d.name==="Regulatory Violations");
+  const involDriverPct = Math.round(((perf.involuntary+reg.involuntary)/k.involuntary_total)*1000)/10;
+  buildDimensionPage("#page-3", {
+    eyebrow:"Attrition · by Exit Survey",
+    title:"What do people say is pushing them out?",
+    lede:`All ${k.reasons_count} exit-survey categories logged. "Performance Issue" and "Regulatory Violations" together explain ${fmt1(involDriverPct)}% of every involuntary exit — nearly all of it, not a training accident.`,
+    dimLabel:"reason", dimLabelCap:"Exit Reason", dimLabelPlural:"reasons",
+    rows: DATA.by_reason,
+    kpis: [
+      kpiTile("Total Exits", fmtInt(k.total_exits)),
+      kpiTile("Reasons Represented", fmtInt(k.reasons_count)),
+      kpiTile("Top Reason", topReason.name.split("/")[0].trim(), "critical", fmt1(topReason.share_pct)+"% of all exits ("+fmtInt(topReason.total)+")"),
+      kpiTile("Involuntary Drivers", "Perf. Issue + Reg. Violations", "warning", fmt1(involDriverPct)+"% of all "+fmtInt(k.involuntary_total)+" involuntary exits"),
+    ],
+  });
+}
+buildAll();
+
+/* ============================= PAGER ============================= */
+let currentPage = 1;
+const TOTAL_PAGES = 3;
+function goToPage(n){
+  n = Math.max(1, Math.min(TOTAL_PAGES, n));
+  currentPage = n;
+  $$(".page").forEach(p=> p.classList.toggle("active", p.id === "page-"+n));
+  $$(".pagepill").forEach(p=> p.setAttribute("aria-current", p.dataset.page == n ? "true":"false"));
+  $("#pagerLabel").textContent = `Page ${n} of ${TOTAL_PAGES}`;
+  $("#prevBtn").disabled = n===1;
+  $("#nextBtn").disabled = n===TOTAL_PAGES;
+  window.scrollTo({top:0, behavior:"auto"});
+}
+$$(".pagepill").forEach(p=> p.addEventListener("click", ()=> goToPage(parseInt(p.dataset.page,10))));
+$("#prevBtn").addEventListener("click", ()=> goToPage(currentPage-1));
+$("#nextBtn").addEventListener("click", ()=> goToPage(currentPage+1));
+document.addEventListener("keydown", (e)=>{
+  if(e.key==="ArrowRight") goToPage(currentPage+1);
+  if(e.key==="ArrowLeft") goToPage(currentPage-1);
+});
+goToPage(1);
+</script>

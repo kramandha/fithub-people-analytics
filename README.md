@@ -1,17 +1,21 @@
-# FIT HUB People Analytics — Requisitions Report
+# FIT HUB People Analytics
 
-A standalone, self-contained HTML report analyzing FIT HUB's hiring/requisition pipeline: pipeline KPIs, replacement-hiring rate (an attrition proxy), SLA outcomes, sourcing-channel effectiveness, and full breakdowns by role and by club location.
+Standalone, self-contained HTML reports built from FIT HUB's People Analytics & Intelligence case study data. No build step, no dependencies — each is a single HTML file with its data embedded inline.
 
-Built from FIT HUB's Hiring dataset as part of a People Analytics & Intelligence case study.
+Live via GitHub Pages: **https://kramandha.github.io/fithub-people-analytics/**
 
-## Contents
+## Reports
 
-- [`index.html`](./index.html) — the report. Open it directly in a browser, or enable **GitHub Pages** (Settings → Pages → Deploy from branch `main`, folder `/`) to get a shareable link.
-
-## Pages
+### [Requisitions](./index.html) — hiring/requisition pipeline
+Pipeline KPIs, replacement-hiring rate (an attrition proxy), SLA outcomes, sourcing-channel effectiveness, and full breakdowns by role and by club location.
 
 1. **Pipeline** — total requisitions, closed vs. open, replacement-hiring rate, average time-to-fill, SLA success rate, and channel effectiveness ranked by SLA success.
 2. **Per Role** — requisition volume, replacement rate, Beyond-SLA rate, and average time-to-fill for every role.
 3. **Per Area** — the same breakdown across all club locations.
 
-No build step, no dependencies — it's a single HTML file with the data embedded inline.
+### [Attrition](./attrition.html) — exit analysis
+Every exit in the Turnover dataset, broken down three ways — nothing capped to a top-N, every category shown.
+
+1. **Position** — total exits, involuntary rate, regrettable rate, and average tenure for all 14 roles. Hover any bar in the Position/Involuntary charts to see that role's top exit reasons.
+2. **Location** — the same cuts across all 25 club locations.
+3. **Exit Survey** — the same cuts across all 16 exit-survey reasons, plus which reasons drive involuntary exits.
